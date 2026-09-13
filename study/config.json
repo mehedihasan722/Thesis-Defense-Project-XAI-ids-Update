@@ -1,0 +1,1 @@
+{"seeds":[42,7,1337],"caps":{"train":200000,"validation":40000,"test":80000},"epochs":20,"patience":4,"batch_size":1024,"llm_test_cases":100,"explanation_cases":20,"llms":["Qwen/Qwen2.5-0.5B-Instruct","TinyLlama/TinyLlama-1.1B-Chat-v1.0","HuggingFaceTB/SmolLM2-1.7B-Instruct"]}
