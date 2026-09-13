@@ -1,0 +1,28 @@
+name: Experiment proposal
+description: Propose a bounded experiment or reproducibility improvement.
+title: '[Experiment] '
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question and rationale
+    validations:
+      required: true
+  - type: textarea
+    id: protocol
+    attributes:
+      label: Dataset, split, models, controls and metrics
+      description: Specify training-only decisions and distinguish confirmatory from post-hoc analysis.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Completion criteria and expected artifacts
+      description: Describe measurable checks, tables and figures; do not prescribe a desired result.
+    validations:
+      required: true
+  - type: input
+    id: resources
+    attributes:
+      label: Compute and storage requirements

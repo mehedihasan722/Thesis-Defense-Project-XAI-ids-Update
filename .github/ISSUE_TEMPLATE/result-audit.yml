@@ -1,0 +1,27 @@
+name: Result audit or interpretation
+description: Question a metric, comparison, figure or reported conclusion.
+title: '[Result audit] '
+body:
+  - type: input
+    id: evidence
+    attributes:
+      label: Result file, figure or commit
+    validations:
+      required: true
+  - type: input
+    id: run
+    attributes:
+      label: Dataset, model, seed and source-to-target direction
+    validations:
+      required: true
+  - type: textarea
+    id: concern
+    attributes:
+      label: Concern and supporting evidence
+      description: Include the metric definition and direction, sample size and comparison/control.
+    validations:
+      required: true
+  - type: textarea
+    id: check
+    attributes:
+      label: Suggested reproduction or independent check

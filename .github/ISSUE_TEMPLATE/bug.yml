@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a reproducible code or workflow failure.
+title: '[Bug] '
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What failed?
+      description: State the expected and observed behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction command and steps
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: Commit and environment
+      placeholder: 'Commit SHA, OS, Python version, environment lock'
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Logs or traceback
+      description: Include relevant output without credentials or raw sensitive traffic.
+      render: text

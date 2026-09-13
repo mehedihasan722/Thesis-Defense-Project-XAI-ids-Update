@@ -5,7 +5,7 @@ import tempfile
 import unittest
 
 import joblib
-from joblib.externals import cloudpickle
+import cloudpickle
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 from lime.lime_tabular import LimeTabularExplainer
@@ -57,3 +57,4 @@ class FinalAnalysisTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+

@@ -12,6 +12,10 @@ The downloaded cleaned releases contain **1,986,745 UNSW flows** and **17,129,71
 
 [Study protocol](thesis/study/PROTOCOL.md) records the model matrix, sampling, split rules and limitations before new model results are examined. [Change log](CHANGELOG.md) records implementation details. Every meaningful change uses a gitmoji commit with a detailed body and is pushed to this update repository.
 
+[![Protocol CI](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/actions/workflows/protocol-ci.yml/badge.svg)](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/actions/workflows/protocol-ci.yml)
+
+[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [GitHub workflow](docs/GITHUB_WORKFLOW.md)
+
 ## Current status
 
 - Both raw releases acquired and processed in batches.
@@ -49,4 +53,5 @@ The PDF renderer follows the supplied IIUC reference: A4, Times New Roman, front
 Older work is preserved in `results/final/`, the original scripts and `thesis/history/`. It includes a finding that 88.97% of original random-split test flows share retained features with training, which motivated the new globally group-disjoint design. Historical results must not be mixed into the restarted study's comparison tables.
 
 Sources: [NetFlow dataset creators](https://staff.itee.uq.edu.au/marius/NIDS_datasets/), [cleaned IDS2018 release](https://www.kaggle.com/datasets/dhoogla/nfcsecicids2018v2), [Qwen](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct), [TinyLlama](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0), [SmolLM2](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct).
+
 
