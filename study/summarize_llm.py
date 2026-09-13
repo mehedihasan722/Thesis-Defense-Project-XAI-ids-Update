@@ -41,9 +41,10 @@ def main():
                         if kind=='detector':grounded+=int(ok and set(names)<=set(r['detector_evidence']))
                     explanations.append(dict(model=meta['model'],source=source,target=target,kind=kind,n=len(cases),valid_json_with_allowed_features=valid,evidence_feature_grounded=grounded if kind=='detector' else None))
     if not rows:print('No completed full LLM runs yet');return
-    out=ROOT/'results/study/llm';d=pd.DataFrame(rows).drop_duplicates();d.to_csv(out/'matched_metrics.csv',index=False);pd.DataFrame(explanations).to_csv(out/'explanation_checks.csv',index=False)
+    out=ROOT/'results/study/llm';d=pd.DataFrame(rows).drop_duplicates(subset=["model","source","target","cohort"]);d.to_csv(out/'matched_metrics.csv',index=False);pd.DataFrame(explanations).to_csv(out/'explanation_checks.csv',index=False)
     lines=['# Matched-case LLM comparisons','','Only complete 100-case runs are included. Each target cohort has 50 benign and 50 attack unique feature groups; these metrics are not comparable to population-prevalence 80000-case results. LLM scores normalize two label-token likelihoods and are not calibrated attack probabilities.','', '| Model | Source | Target | Macro-F1 | False alarm rate |','| --- | --- | --- | --- | --- |']
     for r in d.to_dict('records'):lines.append(f"| {r['model']} | {r['source']} | {r['target']} | {r['macro_f1']:.6f} | {r['false_alarm_rate']:.6f} |")
     lines.extend(['','Explanation checks count valid JSON with 1-3 exact feature names and nonempty explanation text. Detector grounding checks only whether named features appear in supplied evidence; it does not validate every prose claim, usefulness or causal correctness. All raw outputs and failures remain in per-model cases.jsonl.'])
     (out/'ANALYSIS.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 if __name__=='__main__':main()
+

@@ -1,0 +1,9 @@
+model,source,target,kind,n,valid_json_with_allowed_features,evidence_feature_grounded
+Qwen/Qwen2.5-0.5B-Instruct,unsw,unsw,own,20,0,
+Qwen/Qwen2.5-0.5B-Instruct,unsw,unsw,detector,20,13,10.0
+Qwen/Qwen2.5-0.5B-Instruct,unsw,ids2018,own,20,0,
+Qwen/Qwen2.5-0.5B-Instruct,unsw,ids2018,detector,20,17,17.0
+Qwen/Qwen2.5-0.5B-Instruct,ids2018,unsw,own,20,13,
+Qwen/Qwen2.5-0.5B-Instruct,ids2018,unsw,detector,20,16,8.0
+Qwen/Qwen2.5-0.5B-Instruct,ids2018,ids2018,own,20,13,
+Qwen/Qwen2.5-0.5B-Instruct,ids2018,ids2018,detector,20,12,12.0

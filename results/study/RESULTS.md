@@ -194,6 +194,18 @@ Only model groups with all three seeds contribute. Error bars are sample standar
 
 [Scalable SVG](figures/10_across_seed_variation.svg)
 
+![11_llm_matched_classification](figures/11_llm_matched_classification.png)
+
+Same 50 benign / 50 attack unique feature groups per target for detectors and LLMs. These are different prevalence and sample sizes from full-test detector results. LLMs use rounded signed-log flow serialization and four source-training examples, not trained detector feature representations.
+
+[Scalable SVG](figures/11_llm_matched_classification.svg)
+
+![12_llm_explanation_checks](figures/12_llm_explanation_checks.png)
+
+Counts aggregate four source/target directions per model. Feature matching is a limited grounding check, not verification of every prose claim or causal validity. Malformed or truncated outputs remain in the denominator. See exact counts and unmodified outputs in llm/.
+
+[Scalable SVG](figures/12_llm_explanation_checks.svg)
+
 ![13_masking_sensitivity](figures/13_masking_sensitivity.png)
 
 Cross-domain results for source-background mean/median and absolute/signed-descending rankings. Same cases, saved weights and random controls; no retraining. Signed ranking may include nonpositive features when fewer than k positive weights exist. Full within-domain results and uncertainty intervals are in xai/sensitivity/ANALYSIS.md.

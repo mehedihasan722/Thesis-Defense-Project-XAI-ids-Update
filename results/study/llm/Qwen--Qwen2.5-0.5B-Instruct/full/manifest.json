@@ -1,0 +1,16 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "signature": "48920e6c402028bdd175e11d5a1c5749170cc6e3856dd98160bc14f566ba7ac5",
+  "dtype": "float32",
+  "quantization": null,
+  "cases_per_target": 100,
+  "classification": "normalized full 0/1 candidate likelihoods; common prefix cancels; not calibrated probability",
+  "label_prefix_tokens": [],
+  "label_suffix_tokens": [
+    15,
+    16
+  ],
+  "compatible_prior_signature": "48920e6c402028bdd175e11d5a1c5749170cc6e3856dd98160bc14f566ba7ac5",
+  "status": "complete"
+}
