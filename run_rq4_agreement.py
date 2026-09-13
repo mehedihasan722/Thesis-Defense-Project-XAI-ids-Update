@@ -9,11 +9,10 @@ Builds four global feature rankings for the same frozen model:
   Permutation importance model-agnostic, measured on held-out data
   TOPSIS                 data-only, no model involved
 
-then reports the pairwise Spearman matrix. Where two established explainers
-disagree about the same model, at least one is misleading an analyst. The
-TOPSIS row is the diagnostic: high correlation with TOPSIS and low correlation
-with the model-behaviour methods means the explanation is describing the
-dataset, not the classifier.
+Reports descriptive agreement, not proof that a method is correct or wrong.
+LIME, SHAP and probability permutation sensitivity use the same instances and
+original predicted classes. SHAP output units remain model-dependent; TOPSIS
+is a data-only comparator. Historical tables use the earlier protocol.
 """
 
 from __future__ import annotations
@@ -37,7 +36,8 @@ import numpy as np
 import pandas as pd
 import shap
 from lime.lime_tabular import LimeTabularExplainer
-from sklearn.inspection import permutation_importance
+from attribution import predicted_class_values, probability_permutation_importance
+from experiment import start_run, finish_run
 
 import config
 from explainers import get_shap_explainer
@@ -50,7 +50,7 @@ LIME_SEED = 101
 
 
 def main(model_name: str, task: str, seed: int, n_instances: int,
-         num_samples: int):
+         num_samples: int, skip_shap=False):
     t_all = time.time()
 
     clf = joblib.load(config.RESULTS_MODELS / f"{model_name}_{task}_seed{seed}.joblib")
@@ -77,6 +77,16 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
 
     bg = X_tr.sample(min(BACKGROUND_N, len(X_tr)), random_state=seed)
 
+    run_dir = start_run(config.RESULTS_TABLES, "rq4", model_name, seed, {
+        "skip_shap": skip_shap, "task": task, "protocol": "predicted-class-v2", "num_samples": num_samples,
+        "lime_seed": LIME_SEED, "permutation_repeats": 10,
+        "sample_indices": [int(i) for i in sample_idx],
+        "shap_units": "native model output; may be margins rather than probabilities",
+        "permutation_metric": "mean absolute original-class probability change",
+    })
+    Xs = X_te.loc[sample_idx]
+    labels = clf.predict(Xs).astype(int)
+
     # ---- LIME: mean |weight| across instances -----------------------------
     print("LIME...", flush=True)
     expl = LimeTabularExplainer(
@@ -96,47 +106,37 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
     lime_imp /= len(sample_idx)
 
     # ---- TreeSHAP: mean |shap value| --------------------------------------
-    tree_expl, shap_kind = get_shap_explainer(clf, bg.values)
-    print(f"{shap_kind}...", flush=True)
-    Xs = X_te.loc[sample_idx]
-    if shap_kind == "LinearSHAP":
-        sv = tree_expl.shap_values(clf.steps[0][1].transform(Xs))
-    else:
-        sv = tree_expl.shap_values(Xs)
-    arr = np.array(sv)
-    if arr.ndim == 3:
-        shap_imp = np.abs(arr).mean(axis=(0, 2)) if arr.shape[0] == len(Xs) \
-                   else np.abs(arr).mean(axis=(0, 1))
-    else:
-        shap_imp = np.abs(arr).mean(axis=0)
-    shap_imp = np.asarray(shap_imp).ravel()[:n_features]
+    shap_kind, shap_imp = None, None
+    if not skip_shap:
+        tree_expl, shap_kind = get_shap_explainer(clf, bg.values)
+        print(f"{shap_kind}...", flush=True)
+        Xs = X_te.loc[sample_idx]
+        if shap_kind == "LinearSHAP":
+            sv = tree_expl.shap_values(clf.steps[0][1].transform(Xs))
+        else:
+            sv = tree_expl.shap_values(Xs)
+        selected = predicted_class_values(sv, labels, n_features)
+        shap_imp = np.abs(selected).mean(axis=0)
 
-    # ---- Permutation importance -------------------------------------------
-    print("permutation importance...", flush=True)
-    sub = X_te.sample(min(PERM_SUBSET, len(X_te)), random_state=seed)
-    ysub = y_te.loc[sub.index]
-    codes = pd.Categorical(ysub, categories=class_names).codes \
-            if task == "multiclass" else ysub.values
-    perm = permutation_importance(
-        clf, sub, codes, n_repeats=5, random_state=seed,
-        n_jobs=config.N_JOBS, scoring="f1_macro",
-    )
-    perm_imp = perm.importances_mean
-    perm_std = perm.importances_std
+    print("probability permutation sensitivity...", flush=True)
+    perm_imp, perm_std = probability_permutation_importance(
+        clf, Xs.values, labels, repeats=10, seed=seed)
 
     # ---- TOPSIS (no model) -------------------------------------------------
     print("TOPSIS...", flush=True)
-    topsis_order = topsis_feature_ranking(X_tr.sample(100_000, random_state=seed))
+    topsis_order = topsis_feature_ranking(X_tr.sample(min(100_000, len(X_tr)), random_state=seed))
 
     rankings = {
         "LIME": list(np.argsort(-lime_imp)),
-        shap_kind: list(np.argsort(-shap_imp)),
-        "Permutation": list(np.argsort(-perm_imp)),
+        "ProbabilityPermutation": list(np.argsort(-perm_imp)),
         "TOPSIS": list(topsis_order),
     }
 
+    if not skip_shap:
+        rankings[shap_kind] = list(np.argsort(-shap_imp))
+
     M = agreement_matrix(rankings, n_features)
-    out = config.RESULTS_TABLES / f"rq4_agreement_{model_name}_{task}.csv"
+    out = run_dir / f"rq4_agreement_{model_name}_{task}.csv"
     M.to_csv(out)
 
     print("\n" + "=" * 60)
@@ -149,7 +149,7 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
     # question an analyst actually has: do the methods agree on what matters?
     for k in (5, 10):
         J = jaccard_matrix(rankings, k)
-        j_out = config.RESULTS_TABLES / f"rq4_jaccard{k}_{model_name}_{task}.csv"
+        j_out = run_dir / f"rq4_jaccard{k}_{model_name}_{task}.csv"
         J.to_csv(j_out)
         print(f"\n{'=' * 60}")
         print(f"RQ4b — pairwise Jaccard@{k} (top-{k} set overlap)")
@@ -157,12 +157,16 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
         print(J.to_string())
 
     # ---- how much of each ranking is above noise? -------------------------
+    importances = {"LIME": lime_imp, "ProbabilityPermutation": perm_imp}
+    if not skip_shap:
+        importances[shap_kind] = shap_imp
+    pd.DataFrame(importances, index=feature_names).to_csv(run_dir / "feature_importances.csv")
     noise = importance_noise_report(
-        {"LIME": lime_imp, shap_kind: shap_imp, "Permutation": perm_imp},
-        {"Permutation": perm_std},
+        importances,
+        {"ProbabilityPermutation": perm_std},
         feature_names,
     )
-    n_out = config.RESULTS_TABLES / f"rq4_noise_{model_name}_{task}.csv"
+    n_out = run_dir / f"rq4_noise_{model_name}_{task}.csv"
     noise.to_csv(n_out, index=False)
     print("\n" + "=" * 60)
     print("RQ4c — how much of each ranking exceeds its own noise floor")
@@ -176,11 +180,12 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
     top = pd.DataFrame({
         k: [feature_names[i] for i in v[:10]] for k, v in rankings.items()
     }, index=[f"#{i+1}" for i in range(10)])
-    t_out = config.RESULTS_TABLES / f"rq4_top10_{model_name}_{task}.csv"
+    t_out = run_dir / f"rq4_top10_{model_name}_{task}.csv"
     top.to_csv(t_out)
     print("\nTop-10 features by each method:")
     print(top.to_string())
 
+    finish_run(run_dir)
     print(f"\nwall clock {(time.time()-t_all)/60:.1f} min")
     print(f"wrote {out}\nwrote {t_out}")
 
@@ -193,4 +198,5 @@ if __name__ == "__main__":
     ap.add_argument("--seed", type=int, default=config.SEED)
     ap.add_argument("--n-instances", type=int, default=300)
     ap.add_argument("--num-samples", type=int, default=5000)
+    ap.add_argument("--skip-shap", action="store_true", help="Explicitly omit SHAP for bounded ensemble evaluation")
     main(**vars(ap.parse_args()))

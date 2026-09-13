@@ -29,12 +29,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
 import config
-from models import build_models, soft_vote
+from models import build_models, soft_vote, FrozenSoftVotingClassifier
 from evaluation import evaluate, per_class_recall
 
 
 def main(task: str, seed: int, no_svm: bool = False,
-         logreg: bool = False, nb: bool = False, mlp: bool = False):
+         logreg: bool = False, nb: bool = False, mlp: bool = False, ensemble_members=None):
     t_all = time.time()
 
     # ---- load the Stage 1 checkpoint -------------------------------------
@@ -67,6 +67,9 @@ def main(task: str, seed: int, no_svm: bool = False,
                           include_svm=not no_svm,
                           include_logreg=logreg,
                           include_nb=nb, include_mlp=mlp)
+    ensemble_members = ensemble_members or ["DecisionTree", "RandomForest", "XGBoost"]
+    if len(set(ensemble_members)) != len(ensemble_members) or set(ensemble_members) - set(models):
+        raise ValueError("Ensemble members must be unique enabled model names")
     rows, probas, timings = [], {}, {}
 
     for name, clf in models.items():
@@ -96,12 +99,14 @@ def main(task: str, seed: int, no_svm: bool = False,
 
     # ---- soft-voting ensemble --------------------------------------------
     print("\n--- SoftVotingEnsemble ---")
-    ens_proba = soft_vote(list(probas.values()))
+    ensemble = FrozenSoftVotingClassifier({name: models[name] for name in ensemble_members})
+    joblib.dump(ensemble, config.RESULTS_MODELS / f"SoftVotingEnsemble_{task}_seed{seed}.joblib")
+    ens_proba = soft_vote([probas[name] for name in ensemble_members])
     ens_pred = ens_proba.argmax(axis=1)
     m = evaluate(y_te, ens_pred, ens_proba, np.arange(len(class_names)),
                  benign_label, "SoftVotingEnsemble")
-    m["train_time_s"] = round(sum(t["train_s"] for t in timings.values()), 1)
-    m["inference_ms_per_flow"] = round(sum(t["infer_ms"] for t in timings.values()), 5)
+    m["train_time_s"] = round(sum(timings[name]["train_s"] for name in ensemble_members), 1)
+    m["inference_ms_per_flow"] = round(sum(timings[name]["infer_ms"] for name in ensemble_members), 5)
     rows.append(m)
     print(f"  macro-F1 {m['macro_f1']:.4f}   FAR {m['false_alarm_rate']:.4%}")
 
@@ -124,7 +129,7 @@ def main(task: str, seed: int, no_svm: bool = False,
 
     # test indices + metadata, so RQ1/RQ2 use the identical split
     meta = {
-        "task": task, "seed": seed,
+        "task": task, "seed": seed, "ensemble_members": ensemble_members,
         "class_names": class_names,
         "feature_names": feature_names,
         "benign_label": benign_label,
@@ -149,4 +154,6 @@ if __name__ == "__main__":
                     help="add GaussianNB (smooth, simple)")
     ap.add_argument("--mlp", action="store_true",
                     help="add MLP (smooth, non-linear)")
+    ap.add_argument("--ensemble-members", nargs="+", default=None,
+                    help="Explicit enabled members; defaults to DecisionTree RandomForest XGBoost")
     main(**vars(ap.parse_args()))

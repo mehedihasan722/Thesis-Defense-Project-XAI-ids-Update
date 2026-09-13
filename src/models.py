@@ -138,3 +138,21 @@ def build_models(task: str, n_classes: int, seed: int = config.SEED,
 def soft_vote(probas: list[np.ndarray]) -> np.ndarray:
     """Mean of predict_proba matrices. All must share column order."""
     return np.mean(np.stack(probas, axis=0), axis=0)
+
+
+class FrozenSoftVotingClassifier:
+    """Serializable probability average of explicitly selected fitted models."""
+
+    def __init__(self, members):
+        if not members:
+            raise ValueError('At least one fitted member is required')
+        self.members = dict(members)
+        self.classes_ = np.asarray(next(iter(members.values())).classes_)
+        if any(not np.array_equal(m.classes_, self.classes_) for m in members.values()):
+            raise ValueError('Ensemble members must share class column order')
+
+    def predict_proba(self, X):
+        return soft_vote([m.predict_proba(X) for m in self.members.values()])
+
+    def predict(self, X):
+        return self.classes_[self.predict_proba(X).argmax(axis=1)]

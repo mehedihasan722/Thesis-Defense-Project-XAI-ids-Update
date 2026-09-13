@@ -41,15 +41,17 @@ def curves_for_instance(x, ranking, clf, baseline, label, ks) -> dict:
         top = ranking[:k]
 
         # comprehensiveness: remove the top-k
-        p = clf.predict_proba(mask_features(x, top, baseline).reshape(1, -1))[0][label]
-        comp.append(p)
+        comp.append(mask_features(x, top, baseline))
 
         # sufficiency: keep only the top-k
         rest = all_idx - set(top)
-        p = clf.predict_proba(mask_features(x, rest, baseline).reshape(1, -1))[0][label]
-        suff.append(p)
+        suff.append(mask_features(x, rest, baseline))
 
-    return {"comprehensiveness": comp, "sufficiency": suff}
+    # One prediction batch preserves the exact perturbations while avoiding
+    # twenty separate estimator/thread-pool launches per ranking.
+    probabilities = clf.predict_proba(np.asarray(comp + suff))[:, label]
+    return {"comprehensiveness": probabilities[:len(ks)].tolist(),
+            "sufficiency": probabilities[len(ks):].tolist()}
 
 
 def auc_over_k(values, p_original) -> float:

@@ -9,8 +9,8 @@ deterministic every run would return the same ranking. It is not: LIME fits a
 local surrogate to a random perturbation sample, so the ranking is a random
 variable. This script measures its dispersion.
 
-TreeSHAP is run once per instance as a determinism ceiling — it is exact, so
-its stability is 1.0 by construction and provides the reference line.
+This runner measures repeated LIME rankings. It does not execute SHAP or
+measure a SHAP repeatability ceiling.
 """
 import argparse
 import json
@@ -25,11 +25,13 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
 import joblib
+from joblib.externals import cloudpickle
 import numpy as np
 import pandas as pd
 from lime.lime_tabular import LimeTabularExplainer
 
 import config
+from experiment import start_run, finish_run
 from stability import rank_stability
 
 
@@ -85,6 +87,11 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
     print(y_te.loc[sample_idx].value_counts().to_string())
 
     # ---- one explainer per seed, built once and reused --------------------
+    run_dir = start_run(config.RESULTS_TABLES, "rq1", model_name, seed, {
+        "task": task, "num_samples": num_samples, "lime_seeds": LIME_SEEDS,
+        "sample_indices": [int(i) for i in sample_idx],
+    })
+
     bg = X_tr.sample(min(BACKGROUND_N, len(X_tr)), random_state=seed)
     explainers = [
         LimeTabularExplainer(
@@ -100,7 +107,31 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
 
     # ---- run --------------------------------------------------------------
     rows, times = [], []
-    for n, idx in enumerate(sample_idx, 1):
+    manifest_path = run_dir / 'manifest.json'
+    manifest = json.loads(manifest_path.read_text())
+    candidates = sorted(run_dir.parent.glob(f'rq1_{model_name}_seed{seed}_*/checkpoint.joblib'), reverse=True)
+    for checkpoint in candidates:
+        previous = json.loads((checkpoint.parent / 'manifest.json').read_text())
+        compatible = (
+            previous['status'] != 'complete' and
+            previous['parameters'] == manifest['parameters'] and
+            previous.get('input_sha256') == manifest.get('input_sha256') and
+            previous['python'] == manifest['python'] and
+            previous['packages'] == manifest['packages'] and
+            all(previous['source_sha256'].get(name) == manifest['source_sha256'].get(name)
+                for name in ['run_rq1_stability.py', 'src/stability.py', 'src/models.py', 'config.py'])
+        )
+        if compatible:
+            state = joblib.load(checkpoint)
+            rows, times = state['rows'], state['times']
+            explainers = cloudpickle.loads(state['explainers'])
+            assert [r['instance'] for r in rows] == [int(i) for i in sample_idx[:len(rows)]]
+            manifest['resumed_from'] = str(checkpoint.parent.relative_to(ROOT))
+            manifest['resumed_instances'] = len(rows)
+            manifest_path.write_text(json.dumps(manifest, indent=2))
+            print(f'Resumed {len(rows)} instances with saved LIME random states.', flush=True)
+            break
+    for n, idx in enumerate(sample_idx[len(rows):], len(rows) + 1):
         x = X_te.loc[idx].values
         true_cls = y_te.loc[idx]
         pred_label = int(clf.predict(x.reshape(1, -1))[0])
@@ -123,6 +154,9 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
         rows.append(st)
 
         if n % 10 == 0 or n == len(sample_idx):
+            temporary = run_dir / 'checkpoint.tmp.joblib'
+            joblib.dump({'rows': rows, 'times': times, 'explainers': cloudpickle.dumps(explainers)}, temporary, compress=3)
+            temporary.replace(run_dir / 'checkpoint.joblib')
             mj = np.mean([r["jaccard_at_5"] for r in rows])
             print(f"  [{n}/{len(sample_idx)}] running mean Jaccard@5 = {mj:.3f}"
                   f"   ({np.mean(times):.2f}s per explanation)", flush=True)
@@ -130,7 +164,7 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
     res = pd.DataFrame(rows)
 
     # ---- outputs ----------------------------------------------------------
-    out = config.RESULTS_TABLES / f"rq1_stability_{model_name}_{task}.csv"
+    out = run_dir / f"rq1_stability_{model_name}_{task}.csv"
     res.to_csv(out, index=False)
 
     summary = (res.groupby("true_class")
@@ -141,8 +175,9 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
                        kendall_mean=("kendall_tau", "mean"))
                   .round(4)
                   .sort_values("jaccard5_mean"))
-    s_out = config.RESULTS_TABLES / f"rq1_summary_{model_name}_{task}.csv"
+    s_out = run_dir / f"rq1_summary_{model_name}_{task}.csv"
     summary.to_csv(s_out)
+    finish_run(run_dir)
 
     print("\n" + "=" * 70)
     print("RQ1 — LIME stability by attack class (lower = less stable)")
@@ -152,9 +187,7 @@ def main(model_name: str, task: str, seed: int, n_instances: int,
     print(f"overall Jaccard@10: {res['jaccard_at_10'].mean():.4f}")
     print(f"overall Kendall t : {res['kendall_tau'].mean():.4f}")
 
-    # Cost accounting (Yang practice 1) — this is a reportable result, not
-    # an implementation detail. At this rate, a SOC handling 10k alerts/hour
-    # cannot explain them in real time.
+    # Report measured local runtime without extrapolating deployment capacity.
     tot = np.sum(times)
     print(f"\nexplanations      : {len(times):,}")
     print(f"mean per expl.    : {np.mean(times):.3f}s  "

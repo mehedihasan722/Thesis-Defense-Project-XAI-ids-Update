@@ -5,3 +5,18 @@ __pycache__/
 *.pyc
 .kaggle/
 kaggle.json
+
+.python/
+.uv-cache/
+results/final/grouped/**/*.joblib
+results/tables/runs/**/checkpoint*.joblib
+
+.venv-study/
+.hf-study/
+results/study/**/*.joblib
+results/study/**/*.pt
+
+# Local build/runtime artifacts
+tmp/
+preview_thesis_format.py
+results/study/**/predictions_*.parquet

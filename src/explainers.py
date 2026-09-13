@@ -19,6 +19,7 @@ import shap
 from sklearn.pipeline import Pipeline
 
 from models import is_tree_model
+from attribution import predicted_class_values
 
 
 def get_shap_explainer(clf, background):
@@ -55,14 +56,5 @@ def shap_ranking(explainer, kind, clf, x, label, n_features):
         sv = explainer.shap_values(x.reshape(1, -1))
 
     elapsed = time.time() - t0
-    arr = np.array(sv)
-
-    if arr.ndim == 3:
-        arr = arr[0, :, label] if arr.shape[0] == 1 else arr[label, 0, :]
-    elif arr.ndim == 2 and arr.shape[0] > 1 and arr.shape[0] != 1:
-        arr = arr[label] if arr.shape[0] > label else arr[0]
-    else:
-        arr = arr[0]
-
-    arr = np.asarray(arr).ravel()[:n_features]
+    arr = predicted_class_values(sv, [label], n_features)[0]
     return [int(i) for i in np.argsort(-np.abs(arr))], elapsed
