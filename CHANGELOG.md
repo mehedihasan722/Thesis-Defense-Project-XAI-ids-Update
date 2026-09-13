@@ -16,3 +16,7 @@
 - Adapt thesis PDF generation to the supplied IIUC layout: A4, Times New Roman, front matter, five chapters, dotted contents and separate Roman/Arabic numbering. Final expanded manuscript is pending new results.
 
 Each subsequent meaningful change is committed with a gitmoji title, detailed rationale, validation and known limitations, then pushed to the user-specified update repository.
+
+## Numeric overflow correction
+
+The first tree fit failed on finite values beyond float32 range. Use a common signed-log float32 representation before tree prediction and hash that exact representation for group assignment. This prevents both conversion overflow and train/test overlap introduced by input rounding. Five framework tests pass, including extreme-value and rounding-group checks. Rebuild both datasets before resuming training; no new successful model results existed before this correction.

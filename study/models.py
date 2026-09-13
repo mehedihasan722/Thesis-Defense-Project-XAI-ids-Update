@@ -3,10 +3,7 @@ import numpy as np
 import torch
 from torch import nn
 from sklearn.preprocessing import StandardScaler
-
-def log_values(x):
-    x=np.asarray(x,dtype=np.float64)
-    return np.sign(x)*np.log1p(np.abs(x))
+from study.representation import log_values
 
 class FeatureCNN(nn.Module):
     def __init__(self,n_features,n_classes):
@@ -33,7 +30,7 @@ class Predictor:
             with torch.inference_mode():
                 for start in range(0,len(z),4096):values.append(torch.softmax(self.model(torch.from_numpy(z[start:start+4096])),dim=1).numpy())
             return np.concatenate(values)
-        raw=self.model.predict_proba(x)
+        raw=self.model.predict_proba(log_values(x))
         result=np.zeros((len(x),self.n_classes))
         result[:,self.class_indices]=raw
         return result

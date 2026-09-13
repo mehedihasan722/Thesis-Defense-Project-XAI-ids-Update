@@ -8,6 +8,7 @@ import pyarrow.parquet as pq
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 from config import IDENTIFIER_COLUMNS
+from study.representation import log_values
 CFG=json.loads((ROOT/'study/config.json').read_text(encoding='utf-8-sig'))
 OUT=ROOT/'data/study';OUT.mkdir(parents=True,exist_ok=True)
 
@@ -32,22 +33,23 @@ def main():
     schemas={key:{name.lower():name for name in pq.ParquetFile(path).schema.names} for key,path in files.items()}
     common=sorted(set.intersection(*(set(s) for s in schemas.values()))-IDENTIFIER_COLUMNS-{'label','attack'})
     assert len(common)==39,(len(common),common)
-    spec={'features':common,'seeds':CFG['seeds'],'caps':CFG['caps'],'split':'seeded common-feature hashes, 70/15/15 group assignment','sampling':'uniform row-priority reservoir after group assignment','datasets':{}}
+    spec={'features':common,'seeds':CFG['seeds'],'caps':CFG['caps'],'split_representation':'signed_log1p_float32','split':'seeded common-feature hashes, 70/15/15 group assignment','sampling':'uniform row-priority reservoir after group assignment','datasets':{}}
     split_names=['train','validation','test']
     for key,path in files.items():
         destination=OUT/key
-        if (destination/'complete.json').exists():
+        if (destination/'complete.json').exists() and json.loads((destination/'complete.json').read_text()).get('split_representation')=='signed_log1p_float32':
             spec['datasets'][key]=json.loads((destination/'complete.json').read_text());continue
         reservoirs={(s,p):None for s in CFG['seeds'] for p in split_names}
-        counts=Counter();total=0;invalid=0
+        counts=Counter();total=0;invalid=0;over_float32=0
         partitions={(s,p):Counter() for s in CFG['seeds'] for p in split_names}
         schema=schemas[key];columns=[schema[n] for n in common+['label','attack']]
         for batch in pq.ParquetFile(path).iter_batches(batch_size=100000,columns=columns):
             d=batch.to_pandas();d.columns=[c.lower() for c in d.columns]
             values=d[common].to_numpy(dtype=np.float64)
             invalid+=int((~np.isfinite(values)).sum());values[~np.isfinite(values)]=0
+            over_float32+=int((np.abs(values)>np.finfo(np.float32).max).sum())
             x=pd.DataFrame(values,columns=common)
-            group=pd.util.hash_pandas_object(x,index=False).to_numpy(dtype=np.uint64)
+            group=pd.util.hash_pandas_object(pd.DataFrame(log_values(values),columns=common),index=False).to_numpy(dtype=np.uint64)
             x['label']=d.label.astype(np.int8).values;x['attack']=d.attack.astype(str).values
             assert set(x.label.unique())<={0,1}
             assert ((x.attack.str.lower()=='benign')==(x.label==0)).all(),'Conflicting binary/family labels'
@@ -61,7 +63,7 @@ def main():
                     partitions[(seed,name)].update(part.attack)
                     reservoirs[(seed,name)]=reservoir(reservoirs[(seed,name)],part,CFG['caps'][name])
             print(key,total,'rows processed',flush=True)
-        info={'raw_file':str(path.relative_to(ROOT)),'raw_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'rows':total,'class_counts':dict(counts),'nonfinite_feature_values_replaced':invalid,'samples':{}}
+        info={'split_representation':'signed_log1p_float32','raw_file':str(path.relative_to(ROOT)),'raw_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'rows':total,'class_counts':dict(counts),'nonfinite_feature_values_replaced':invalid,'raw_values_exceeding_float32':over_float32,'samples':{}}
         for seed in CFG['seeds']:
             folder=destination/f'seed{seed}';folder.mkdir(parents=True,exist_ok=True)
             groups=[]

@@ -60,13 +60,14 @@ def train_neural(name,x,y,xv,yv,n_classes,seed,folder):
 def main(dataset,task,seed):
     torch.set_num_threads(4)
     meta=json.loads((ROOT/'data/study/manifest.json').read_text());features=meta['features']
+    assert meta.get('split_representation')=='signed_log1p_float32','Finish current preparation before training'
     frames={s:pd.read_parquet(ROOT/f'data/study/{dataset}/seed{seed}/{s}.parquet') for s in ['train','validation','test']}
     classes=['Benign','Attack'] if task=='binary' else sorted(meta['datasets'][dataset]['class_counts'])
     def label(d):return d.label.to_numpy(dtype=int) if task=='binary' else pd.Categorical(d.attack,categories=classes).codes.astype(int)
     x=frames['train'][features].to_numpy();y=label(frames['train']);xv=frames['validation'][features].to_numpy();yv=label(frames['validation'])
     assert len(np.unique(y))>1
     base=ROOT/f'results/study/{dataset}/{task}/seed{seed}';base.mkdir(parents=True,exist_ok=True)
-    signature=hashlib.sha256(((ROOT/'data/study/manifest.json').read_text()+json.dumps(CFG)+Path(__file__).read_text()+(ROOT/'study/models.py').read_text()).encode()).hexdigest()
+    signature=hashlib.sha256(((ROOT/'data/study/manifest.json').read_text()+json.dumps(CFG)+Path(__file__).read_text()+(ROOT/'study/models.py').read_text()+(ROOT/'study/representation.py').read_text()).encode()).hexdigest()
     predictors={}
     for name in MODELS:
         folder=base/name;folder.mkdir(exist_ok=True)
@@ -83,7 +84,7 @@ def main(dataset,task,seed):
             if name=='DecisionTree':est=DecisionTreeClassifier(max_depth=30,min_samples_leaf=5,class_weight='balanced',random_state=seed)
             elif name=='RandomForest':est=RandomForestClassifier(n_estimators=100,max_depth=30,min_samples_leaf=5,class_weight='balanced',random_state=seed,n_jobs=4)
             else:est=XGBClassifier(n_estimators=200,max_depth=8,learning_rate=.1,subsample=.8,colsample_bytree=.8,tree_method='hist',random_state=seed,n_jobs=4)
-            indices,local_y=np.unique(y,return_inverse=True);est.fit(x,local_y);model=Predictor(est,len(classes),class_indices=indices)
+            indices,local_y=np.unique(y,return_inverse=True);est.fit(log_values(x),local_y);model=Predictor(est,len(classes),class_indices=indices)
         else:model=train_neural(name,x,y,xv,yv,len(classes),seed,folder)
         fit_seconds=time.perf_counter()-t
         if name=='SoftVoting':

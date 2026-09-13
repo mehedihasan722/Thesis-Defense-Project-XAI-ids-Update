@@ -6,6 +6,12 @@ from study.prepare import partition,reservoir
 from study.models import neural_model,Predictor,log_values
 from study.train import metrics
 class StudyTests(unittest.TestCase):
+    def test_extreme_finite_values_and_rounding_groups(self):
+        raw=np.array([[1e300,-1e300,0],[1e300*(1+1e-9),-1e300,0]])
+        encoded=log_values(raw)
+        self.assertTrue(np.isfinite(encoded.astype(np.float32)).all())
+        groups=pd.util.hash_pandas_object(pd.DataFrame(encoded),index=False).values
+        self.assertEqual(groups[0],groups[1])
     def test_global_group_partition_independent_of_dataset_and_order(self):
         a=np.array([17,42,17,999],dtype=np.uint64)
         for seed in [42,7,1337]:

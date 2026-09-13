@@ -11,11 +11,11 @@ Requested on 13 September 2026. This study starts afresh from the two raw NetFlo
 
 ## Data and split rules
 
-Use the shared numeric feature schema after identifier and target removal. Canonicalize to float64 and replace non-finite values by a fixed zero rule, recording affected counts. Assign identical feature representations globally to one split with seeded feature hashes, including across the two datasets. Split approximately 70/15/15 percent of feature groups. Never use test labels for scaling, thresholds, early stopping or model selection.
+Use the shared numeric feature schema after identifier and target removal. Canonicalize to float64 and replace non-finite values by a fixed zero rule, recording affected counts. Encode signed log1p at float32 precision, then hash that common model-input representation to assign groups globally, including across datasets. This also keeps raw values that become equal through input rounding together. Split approximately 70/15/15 percent of feature groups. Never use test labels for scaling, thresholds, early stopping or model selection.
 
 For CPU feasibility, take uniform row reservoir samples after assigning groups: at most 200,000 training, 40,000 validation and 80,000 test rows per dataset and seed. Preserve full-release row/class counts and report sampled class support. Sampling does not make the data balanced or guarantee rare-class coverage. Use seeds 42, 7 and 1337. These bounded experiments must not be described as training on every flow.
 
-Fit the numeric transformation on training only: signed log1p followed by standardization. Use fixed neural architectures, maximum 20 epochs and validation-loss early stopping. Report learning curves and best epochs. The CNN operates on a fixed feature order, not a temporal sequence; no temporal claim follows from its name.
+Use fixed signed log1p at float32 precision for every model. Fit additional neural-network standardization on training only. Use fixed neural architectures, maximum 20 epochs and validation-loss early stopping. Report learning curves and best epochs. The CNN operates on a fixed feature order, not a temporal sequence; no temporal claim follows from its name.
 
 For LLMs, compare four-example prompts selected only from source training data, with both source directions on a fixed class-balanced subset of 100 seed-42 test cases per target dataset. Score constrained benign/attack label completions and disclose that their normalized likelihood is not a calibrated attack probability. Score the classical/neural models on the same subset in a separate table. Full-test and balanced-subset metrics must not be merged.
 
@@ -26,3 +26,7 @@ Generate and retain rationales on a fixed smaller subset for the LLM's own decis
 Macro-F1, balanced accuracy, precision, recall, average precision, false-alarm rate, confusion matrices, per-class support, runtime and across-seed variation. Audit exact-feature overlap and cross-dataset shift. Lock the protocol before inspecting new model results; changes must be recorded with reasons. Model downloads and run manifests record immutable revisions and hashes. All long stages are resumable.
 
 Keep the supplied IIUC reference PDF format for the eventual revised manuscript. A completed artifact must distinguish measured results from pending experiments and scope limitations.
+
+## Protocol correction before any successful new fit
+
+The initial tree fit failed because some raw finite values exceed float32 range. Apply the common signed-log representation to trees as well as neural networks and rebuild group assignments at that input precision. Count extreme raw values in the dataset audit. No successful model result preceded this correction.
