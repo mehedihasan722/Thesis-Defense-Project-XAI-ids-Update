@@ -42,6 +42,14 @@ Same seed-42 split and random-forest hyperparameters; only class weighting or tr
 
 [Scalable SVG](05_imbalance.svg)
 
+## 08_rq3_uncertainty
+
+![08_rq3_uncertainty](08_rq3_uncertainty.png)
+
+Instance-level means across three LIME seeds, then class-stratified bootstrap (5000 repeats). Intervals are conditional on a single trained model and small balanced cohort; not multiplicity-adjusted. Intervals crossing zero do not establish superiority over random masking.
+
+[Scalable SVG](08_rq3_uncertainty.svg)
+
 ## 06_completion
 
 ![06_completion](06_completion.png)

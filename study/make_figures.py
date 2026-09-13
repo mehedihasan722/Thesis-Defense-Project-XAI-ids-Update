@@ -9,10 +9,10 @@ from matplotlib.patches import FancyBboxPatch,FancyArrowPatch
 ROOT=Path(__file__).resolve().parents[1];BASE=ROOT/'results/study';OUT=BASE/'figures'
 MODELS=['DecisionTree','RandomForest','XGBoost','SoftVoting','ShallowMLP','DeepMLP','FeatureCNN']
 LABELS=['Decision tree','Random forest','XGBoost','Soft voting','Shallow MLP','Deep MLP','Feature CNN']
-plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top':False,'axes.spines.right':False,'savefig.facecolor':'white'})
+plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top':False,'axes.spines.right':False,'savefig.facecolor':'white','svg.hashsalt':'thesis-xai-study'})
 CAPTIONS=[]
 def save(fig,name,caption):
-    fig.savefig(OUT/f'{name}.png',dpi=220,bbox_inches='tight');fig.savefig(OUT/f'{name}.svg',bbox_inches='tight');plt.close(fig)
+    fig.savefig(OUT/f'{name}.png',dpi=220,bbox_inches='tight');fig.savefig(OUT/f'{name}.svg',bbox_inches='tight',metadata={'Date':None});plt.close(fig)
     CAPTIONS.append((name,caption))
 def heatmap(values,title,color,label,vmin=None,vmax=None):
     fig,ax=plt.subplots(figsize=(11,4));im=ax.imshow(values,cmap=color,aspect='auto',vmin=vmin,vmax=vmax)
@@ -61,7 +61,32 @@ def main():
         group=imbalance[(imbalance.source==s)&(imbalance.target==t)].set_index('variant');heights=group.loc[variants,'macro_f1'];bars=ax.bar(['Weighted','Unweighted','Undersampled'],heights,color=['#2166ac','#67a9cf','#ef8a62']);ax.bar_label(bars,fmt='%.3f',padding=3);ax.set_title(f'{s.upper()} → {t.upper()}');ax.set_ylim(0,1.08);ax.set_ylabel('Macro-F1')
     fig.suptitle('Random forest: training-only imbalance strategies');fig.tight_layout()
     save(fig,'05_imbalance','Same seed-42 split and random-forest hyperparameters; only class weighting or training-row undersampling changes. Test prevalence remains untouched. This is a single-seed ablation.')
-    complete_models=len(list(BASE.glob('*/*/seed*/*/complete.json')))
+    uncertainty=BASE/'xai/aggregate.csv'
+    if uncertainty.exists():
+        intervals=pd.read_csv(uncertainty);fig,axes=plt.subplots(1,2,figsize=(12,5),sharex=True,sharey=True)
+        for ax,source in zip(axes,['unsw','ids2018']):
+            target='ids2018' if source=='unsw' else 'unsw'
+            for shift,domain,color,label in [(-.13,source,'#2166ac','Source domain'),(.13,target,'#d95f02','Transferred domain')]:
+                data=intervals[(intervals.source==source)&(intervals.target==domain)].set_index('model').reindex(MODELS)
+                x=data.advantage_mean.to_numpy();lo=data.ci95_low.to_numpy();hi=data.ci95_high.to_numpy()
+                ax.errorbar(x,np.arange(7)+shift,xerr=np.array([x-lo,hi-x]),fmt='o',capsize=3,color=color,label=label)
+            ax.axvline(0,color='#777777',lw=.8);ax.set_yticks(range(7),LABELS);ax.set_title(f'Trained on {source.upper()}');ax.set_xlabel('LIME minus random removal drop');ax.legend(fontsize=8)
+        axes[0].invert_yaxis();fig.suptitle('RQ3 uncertainty · 20 groups/domain · stratified bootstrap',y=1.01)
+        save(fig,'08_rq3_uncertainty','Instance-level means across three LIME seeds, then class-stratified bootstrap (5000 repeats). Intervals are conditional on a single trained model and small balanced cohort; not multiplicity-adjusted. Intervals crossing zero do not establish superiority over random masking.')
+    shift_path=BASE/'shift/feature_shift.csv'
+    if shift_path.exists():
+        shift=pd.read_csv(shift_path).head(12).iloc[::-1];fig,ax=plt.subplots(figsize=(10,5))
+        ax.barh(shift.feature,shift.ks_distance,color='#2166ac');ax.set_xlim(0,1);ax.set_xlabel('Marginal KS distance · larger means more distribution shift');ax.set_title('Largest observed feature shifts · 20000 held-out rows/domain')
+        save(fig,'09_feature_shift','Descriptive marginal shifts in encoded features. Class mixtures differ and features are correlated; no p-value or causal attribution is claimed. Zero fractions, medians and distances for all 39 features are preserved in shift/feature_shift.csv.')
+    seed_path=BASE/'across_seed_summary.csv'
+    if seed_path.exists():
+        seed_data=pd.read_csv(seed_path);fig,axes=plt.subplots(2,2,figsize=(12,7),sharey=True)
+        for ax,(task,source) in zip(axes.flat,[('binary','unsw'),('binary','ids2018'),('multiclass','unsw'),('multiclass','ids2018')]):
+            selected=seed_data[(seed_data.task==task)&(seed_data.source==source)&(seed_data.target==source)&(seed_data.n_seeds==3)].set_index('model').reindex(MODELS)
+            ax.bar(np.arange(7),selected.macro_f1_mean,yerr=selected.macro_f1_sd,capsize=3,color='#4393c3');ax.set_xticks(range(7),LABELS,rotation=35,ha='right');ax.set_ylim(0,1.05);ax.set_ylabel('Macro-F1');ax.set_title(f'{source.upper()} · {task} · {selected.macro_f1_mean.notna().sum()}/7 complete')
+        fig.suptitle('Within-dataset performance · mean ± SD across 3 seeds');fig.tight_layout()
+        save(fig,'10_across_seed_variation','Only model groups with all three seeds contribute. Error bars are sample standard deviations across training/split seeds, not confidence intervals. Native multiclass label inventories differ by dataset; these panels are not cross-taxonomy transfer tests.')
+    complete_models=len(d[['source','task','seed','model']].drop_duplicates())
     complete_xai=sum(json.loads(p.read_text()).get('status')=='complete' for p in (BASE/'xai').glob('*/*/manifest.json'))
     complete_llm=sum(json.loads(p.read_text()).get('status')=='complete' for p in (BASE/'llm').glob('*/full/manifest.json'))
     fig,axes=plt.subplots(1,3,figsize=(10,3.5))
@@ -86,4 +111,6 @@ def main():
     report.write_text(existing+'\n'+'\n'.join(embedded),encoding='utf-8')
     print(f'Saved and embedded {len(CAPTIONS)} figures in PNG and SVG')
 if __name__=='__main__':main()
+
+
 
