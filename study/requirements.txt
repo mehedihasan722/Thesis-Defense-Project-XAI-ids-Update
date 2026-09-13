@@ -8,3 +8,6 @@ xgboost==2.0.3
 transformers==4.57.1
 safetensors>=0.4.3
 requests>=2.32
+lime==0.2.0.1
+shap==0.45.1
+imbalanced-learn==0.12.3
