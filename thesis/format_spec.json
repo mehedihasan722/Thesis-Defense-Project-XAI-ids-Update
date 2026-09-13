@@ -1,0 +1,38 @@
+{
+  "reference": "E:\\Thesis\\Pre Defense\\All Document\\Thesis_XAI_IDS_Mehedi_Hasan_C213061.pdf",
+  "page_size_points": [
+    594.96,
+    842.04
+  ],
+  "font": "Times New Roman",
+  "body_size_points": 12,
+  "leading_points": 20.7,
+  "left_margin_points": 107.8,
+  "right_margin_points": 72,
+  "front_matter": [
+    "Declaration",
+    "Supervisor declaration",
+    "Declaration of thesis and copyright",
+    "Acknowledgement",
+    "Abstract",
+    "Table of contents",
+    "List of tables",
+    "List of figures",
+    "List of abbreviations"
+  ],
+  "chapters": [
+    "Introduction",
+    "Literature Review",
+    "Methodology",
+    "Results and Discussion",
+    "Conclusion and Future Works"
+  ],
+  "numbering": "Roman front matter; Arabic body restarted at 1",
+  "signatures": "blank; no approval inferred",
+  "reference_sha256": "f906f114fe0dfbd3f67802c2fc8bccc1a6ee35971d9a52ef059b0fbef686d84b",
+  "rendering_notes": [
+    "Match layout and five-chapter structure; do not force the reference page count.",
+    "Keep authorship and approval fields unsigned pending completion by the appropriate people.",
+    "Reference used for format; results derive from selected project experiments."
+  ]
+}
