@@ -1,0 +1,40 @@
+[
+  {
+    "n": 80000,
+    "macro_f1": 0.4878066282692852,
+    "balanced_accuracy": 0.492940245463071,
+    "accuracy": 0.947025,
+    "macro_average_precision": 0.48322878954604787,
+    "false_alarm_rate": 0.016117511071859943,
+    "absent_test_classes": [],
+    "source": "ids2018",
+    "target": "unsw",
+    "variant": "balanced_weights",
+    "seed": 42,
+    "train_rows": 200000,
+    "train_class_counts": [
+      176736,
+      23264
+    ],
+    "train_seconds": 22.82513229999995
+  },
+  {
+    "n": 80000,
+    "macro_f1": 0.9819057615213582,
+    "balanced_accuracy": 0.9774819571331672,
+    "accuracy": 0.99175,
+    "macro_average_precision": 0.9872926688288264,
+    "false_alarm_rate": 0.003098473821499085,
+    "absent_test_classes": [],
+    "source": "ids2018",
+    "target": "ids2018",
+    "variant": "balanced_weights",
+    "seed": 42,
+    "train_rows": 200000,
+    "train_class_counts": [
+      176736,
+      23264
+    ],
+    "train_seconds": 22.82513229999995
+  }
+]

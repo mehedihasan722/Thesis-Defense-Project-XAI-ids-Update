@@ -1,0 +1,40 @@
+[
+  {
+    "n": 80000,
+    "macro_f1": 0.4900398406374502,
+    "balanced_accuracy": 0.499207761341351,
+    "accuracy": 0.9609375,
+    "macro_average_precision": 0.48373509190137537,
+    "false_alarm_rate": 0.0015844773172980766,
+    "absent_test_classes": [],
+    "source": "ids2018",
+    "target": "unsw",
+    "variant": "unweighted",
+    "seed": 42,
+    "train_rows": 200000,
+    "train_class_counts": [
+      176736,
+      23264
+    ],
+    "train_seconds": 49.28633260000015
+  },
+  {
+    "n": 80000,
+    "macro_f1": 0.9827495563449593,
+    "balanced_accuracy": 0.9773932199580104,
+    "accuracy": 0.99215,
+    "macro_average_precision": 0.9877243146338978,
+    "false_alarm_rate": 0.00252201357563879,
+    "absent_test_classes": [],
+    "source": "ids2018",
+    "target": "ids2018",
+    "variant": "unweighted",
+    "seed": 42,
+    "train_rows": 200000,
+    "train_class_counts": [
+      176736,
+      23264
+    ],
+    "train_seconds": 49.28633260000015
+  }
+]

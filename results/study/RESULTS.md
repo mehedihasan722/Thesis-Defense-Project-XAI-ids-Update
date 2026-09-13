@@ -1,11 +1,25 @@
 # Expanded study: measured results
 
-Partial snapshot: 40 completed evaluation cells. Planned classical/neural matrix: 84 fitted configurations, 126 evaluation cells. LLM and explanation-transfer results are not included until executed. No thesis report is generated.
+Partial snapshot: 76 completed evaluation cells. Planned classical/neural matrix: 84 fitted configurations, 126 evaluation cells. LLM and explanation-transfer results are not included until executed. No thesis report is generated.
 
 Training uses capped samples after global encoded-feature group partitioning. Source-only preprocessing; frozen binary models are evaluated within and across datasets. Multiclass taxonomies remain dataset-specific. One seed is not a final multi-seed estimate.
 
 | Task | Source | Target | Seed | Model | N | Macro-F1 | Balanced accuracy | False alarm rate |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| binary | ids2018 | ids2018 | 7 | DecisionTree | 80000 | 0.955669 | 0.972521 | 0.016601 |
+| binary | ids2018 | unsw | 7 | DecisionTree | 80000 | 0.430003 | 0.469796 | 0.291447 |
+| binary | ids2018 | ids2018 | 7 | DeepMLP | 80000 | 0.982746 | 0.975305 | 0.001630 |
+| binary | ids2018 | unsw | 7 | DeepMLP | 80000 | 0.545533 | 0.528685 | 0.001814 |
+| binary | ids2018 | ids2018 | 7 | FeatureCNN | 80000 | 0.958687 | 0.946795 | 0.005501 |
+| binary | ids2018 | unsw | 7 | FeatureCNN | 80000 | 0.481733 | 0.477047 | 0.052921 |
+| binary | ids2018 | ids2018 | 7 | RandomForest | 80000 | 0.987242 | 0.978328 | 0.000128 |
+| binary | ids2018 | unsw | 7 | RandomForest | 80000 | 0.486873 | 0.488086 | 0.024267 |
+| binary | ids2018 | ids2018 | 7 | ShallowMLP | 80000 | 0.970510 | 0.972275 | 0.007585 |
+| binary | ids2018 | unsw | 7 | ShallowMLP | 80000 | 0.338279 | 0.282689 | 0.480655 |
+| binary | ids2018 | ids2018 | 7 | SoftVoting | 80000 | 0.982112 | 0.978826 | 0.003147 |
+| binary | ids2018 | unsw | 7 | SoftVoting | 80000 | 0.513927 | 0.510764 | 0.003899 |
+| binary | ids2018 | ids2018 | 7 | XGBoost | 80000 | 0.985141 | 0.979327 | 0.001616 |
+| binary | ids2018 | unsw | 7 | XGBoost | 80000 | 0.529778 | 0.519148 | 0.000283 |
 | binary | ids2018 | ids2018 | 42 | DecisionTree | 80000 | 0.958219 | 0.971669 | 0.016703 |
 | binary | ids2018 | unsw | 42 | DecisionTree | 80000 | 0.493095 | 0.494467 | 0.074003 |
 | binary | ids2018 | ids2018 | 42 | DeepMLP | 80000 | 0.985233 | 0.977544 | 0.000994 |
@@ -20,6 +34,20 @@ Training uses capped samples after global encoded-feature group partitioning. So
 | binary | ids2018 | unsw | 42 | SoftVoting | 80000 | 0.517806 | 0.513925 | 0.000455 |
 | binary | ids2018 | ids2018 | 42 | XGBoost | 80000 | 0.982817 | 0.977807 | 0.002637 |
 | binary | ids2018 | unsw | 42 | XGBoost | 80000 | 0.528419 | 0.519599 | 0.000429 |
+| binary | unsw | ids2018 | 7 | DecisionTree | 80000 | 0.401976 | 0.379544 | 0.269125 |
+| binary | unsw | unsw | 7 | DecisionTree | 80000 | 0.957647 | 0.988909 | 0.004645 |
+| binary | unsw | ids2018 | 7 | DeepMLP | 80000 | 0.435601 | 0.666036 | 0.587941 |
+| binary | unsw | unsw | 7 | DeepMLP | 80000 | 0.953696 | 0.996473 | 0.005739 |
+| binary | unsw | ids2018 | 7 | FeatureCNN | 80000 | 0.438910 | 0.671139 | 0.584709 |
+| binary | unsw | unsw | 7 | FeatureCNN | 80000 | 0.954451 | 0.996525 | 0.005636 |
+| binary | unsw | ids2018 | 7 | RandomForest | 80000 | 0.441039 | 0.439460 | 0.140311 |
+| binary | unsw | unsw | 7 | RandomForest | 80000 | 0.969219 | 0.997077 | 0.003654 |
+| binary | unsw | ids2018 | 7 | ShallowMLP | 80000 | 0.473504 | 0.614919 | 0.466485 |
+| binary | unsw | unsw | 7 | ShallowMLP | 80000 | 0.665681 | 0.952193 | 0.095176 |
+| binary | unsw | ids2018 | 7 | SoftVoting | 80000 | 0.448813 | 0.452131 | 0.113701 |
+| binary | unsw | unsw | 7 | SoftVoting | 80000 | 0.959759 | 0.991166 | 0.004516 |
+| binary | unsw | ids2018 | 7 | XGBoost | 80000 | 0.464265 | 0.479459 | 0.053972 |
+| binary | unsw | unsw | 7 | XGBoost | 80000 | 0.975726 | 0.982002 | 0.001801 |
 | binary | unsw | ids2018 | 42 | DecisionTree | 80000 | 0.631847 | 0.672656 | 0.170474 |
 | binary | unsw | unsw | 42 | DecisionTree | 80000 | 0.965252 | 0.992280 | 0.005117 |
 | binary | unsw | ids2018 | 42 | DeepMLP | 80000 | 0.462417 | 0.683662 | 0.573491 |
@@ -35,10 +63,18 @@ Training uses capped samples after global encoded-feature group partitioning. So
 | binary | unsw | ids2018 | 42 | XGBoost | 80000 | 0.457450 | 0.475265 | 0.061062 |
 | binary | unsw | unsw | 42 | XGBoost | 80000 | 0.969719 | 0.974980 | 0.002753 |
 | multiclass | ids2018 | ids2018 | 42 | DecisionTree | 80000 | 0.714728 | 0.749833 | 0.293851 |
+| multiclass | ids2018 | ids2018 | 42 | DeepMLP | 80000 | 0.588678 | 0.730051 | 0.043797 |
+| multiclass | ids2018 | ids2018 | 42 | FeatureCNN | 80000 | 0.568187 | 0.732261 | 0.136419 |
 | multiclass | ids2018 | ids2018 | 42 | RandomForest | 80000 | 0.687490 | 0.730165 | 0.029472 |
 | multiclass | ids2018 | ids2018 | 42 | ShallowMLP | 80000 | 0.529367 | 0.730141 | 0.488680 |
 | multiclass | ids2018 | ids2018 | 42 | SoftVoting | 80000 | 0.734358 | 0.731579 | 0.004093 |
 | multiclass | ids2018 | ids2018 | 42 | XGBoost | 80000 | 0.737529 | 0.731315 | 0.000288 |
+| multiclass | unsw | unsw | 7 | DecisionTree | 80000 | 0.500272 | 0.679792 | 0.005288 |
+| multiclass | unsw | unsw | 7 | DeepMLP | 80000 | 0.358288 | 0.641799 | 0.096810 |
+| multiclass | unsw | unsw | 7 | RandomForest | 80000 | 0.584036 | 0.734238 | 0.005365 |
+| multiclass | unsw | unsw | 7 | ShallowMLP | 80000 | 0.341872 | 0.643966 | 0.098264 |
+| multiclass | unsw | unsw | 7 | SoftVoting | 80000 | 0.561022 | 0.684519 | 0.005018 |
+| multiclass | unsw | unsw | 7 | XGBoost | 80000 | 0.533350 | 0.520460 | 0.001698 |
 | multiclass | unsw | unsw | 42 | DecisionTree | 80000 | 0.490975 | 0.578049 | 0.005689 |
 | multiclass | unsw | unsw | 42 | DeepMLP | 80000 | 0.453811 | 0.683338 | 0.009520 |
 | multiclass | unsw | unsw | 42 | FeatureCNN | 80000 | 0.406063 | 0.614733 | 0.011650 |
@@ -54,3 +90,48 @@ Cross-dataset degradation measures the combined effect of domain differences und
 ## Reproduction
 
 Run `.venv-study/Scripts/python.exe -m study.run_training`, then `.venv-study/Scripts/python.exe -m study.summarize`. Only folders with complete.json contribute. Partial model outputs are excluded.
+
+<!-- generated-figures -->
+## Figures and diagrams
+
+![01_detection_transfer](figures/01_detection_transfer.png)
+
+Completed seed-42 binary detectors, 80000 test rows per target. Models are frozen across datasets. Single-seed evidence; not a final three-seed estimate. Blank cells indicate unavailable completed results.
+
+[Scalable SVG](figures/01_detection_transfer.svg)
+
+![02_historical_stability_faithfulness](figures/02_historical_stability_faithfulness.png)
+
+483 matched historical cases/model. Positive within-model random-adjusted associations do not imply the same ordering across model averages. Points may share feature groups; these plots do not establish significance or causation.
+
+[Scalable SVG](figures/02_historical_stability_faithfulness.svg)
+
+![03_explanation_transfer](figures/03_explanation_transfer.png)
+
+Completed RQ3 pilots only: 20 balanced unique feature groups per domain, three LIME seeds, one training seed. Arrows connect cohort means, not paired instances. Higher repeatability does not guarantee larger random-adjusted masking effects.
+
+[Scalable SVG](figures/03_explanation_transfer.svg)
+
+![04_calibration](figures/04_calibration.png)
+
+Temperature is fitted only on source validation. Negative cells indicate improved Brier score; positive cells indicate deterioration. Test labels are evaluation-only. Seed 42; 80000 cases per target.
+
+[Scalable SVG](figures/04_calibration.svg)
+
+![05_imbalance](figures/05_imbalance.png)
+
+Same seed-42 split and random-forest hyperparameters; only class weighting or training-row undersampling changes. Test prevalence remains untouched. This is a single-seed ablation.
+
+[Scalable SVG](figures/05_imbalance.svg)
+
+![06_completion](figures/06_completion.png)
+
+Counts are read from completion markers when regenerated. Unfinished includes pending or interrupted/running jobs; this chart does not independently verify live processes. LLM smoke tests do not count as full runs.
+
+[Scalable SVG](figures/06_completion.svg)
+
+![07_workflow](figures/07_workflow.png)
+
+Workflow diagram distinguishes model fitting, held-out evaluation and stored evidence. Source training provides LLM examples and explanation baselines; calibration fits source validation only. No target-test tuning.
+
+[Scalable SVG](figures/07_workflow.svg)
