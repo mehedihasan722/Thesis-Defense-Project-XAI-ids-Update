@@ -1,0 +1,16 @@
+{
+  "n": 80000,
+  "macro_f1": 0.9757043532795137,
+  "balanced_accuracy": 0.9919378359045508,
+  "accuracy": 0.9955125,
+  "macro_average_precision": 0.9746268172948673,
+  "false_alarm_rate": 0.004117924775743587,
+  "absent_test_classes": [],
+  "source": "unsw",
+  "target": "unsw",
+  "task": "binary",
+  "seed": 1337,
+  "model": "DecisionTree",
+  "train_seconds": 1.0899914999999964,
+  "inference_seconds": 0.09801310000011654
+}

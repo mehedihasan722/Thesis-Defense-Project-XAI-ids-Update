@@ -5,15 +5,15 @@ Mean and sample standard deviation across completed training/split seeds. Three 
 | Task | Source | Target | Model | Seeds | Macro-F1 mean | SD |
 | --- | --- | --- | --- | --- | --- | --- |
 | binary | ids2018 | ids2018 | DecisionTree | 3 | 0.948660 | 0.014405 |
-| binary | ids2018 | ids2018 | DeepMLP | 2 | 0.983989 | 0.001759 |
-| binary | ids2018 | ids2018 | FeatureCNN | 2 | 0.971750 | 0.018474 |
+| binary | ids2018 | ids2018 | DeepMLP | 3 | 0.984218 | 0.001305 |
+| binary | ids2018 | ids2018 | FeatureCNN | 3 | 0.975451 | 0.014551 |
 | binary | ids2018 | ids2018 | RandomForest | 3 | 0.985209 | 0.002886 |
 | binary | ids2018 | ids2018 | ShallowMLP | 3 | 0.973199 | 0.003821 |
 | binary | ids2018 | ids2018 | SoftVoting | 3 | 0.978489 | 0.010316 |
 | binary | ids2018 | ids2018 | XGBoost | 3 | 0.984998 | 0.002113 |
 | binary | ids2018 | unsw | DecisionTree | 3 | 0.462416 | 0.031582 |
-| binary | ids2018 | unsw | DeepMLP | 2 | 0.521374 | 0.034166 |
-| binary | ids2018 | unsw | FeatureCNN | 2 | 0.484318 | 0.003656 |
+| binary | ids2018 | unsw | DeepMLP | 3 | 0.516442 | 0.025625 |
+| binary | ids2018 | unsw | FeatureCNN | 3 | 0.485328 | 0.003121 |
 | binary | ids2018 | unsw | RandomForest | 3 | 0.487553 | 0.000596 |
 | binary | ids2018 | unsw | ShallowMLP | 3 | 0.443366 | 0.091664 |
 | binary | ids2018 | unsw | SoftVoting | 3 | 0.509509 | 0.011181 |
@@ -32,20 +32,20 @@ Mean and sample standard deviation across completed training/split seeds. Three 
 | binary | unsw | unsw | ShallowMLP | 3 | 0.864295 | 0.172195 |
 | binary | unsw | unsw | SoftVoting | 3 | 0.967897 | 0.008925 |
 | binary | unsw | unsw | XGBoost | 3 | 0.975027 | 0.004996 |
-| multiclass | ids2018 | ids2018 | DecisionTree | 2 | 0.681962 | 0.046339 |
-| multiclass | ids2018 | ids2018 | DeepMLP | 2 | 0.633294 | 0.063097 |
-| multiclass | ids2018 | ids2018 | FeatureCNN | 2 | 0.570344 | 0.003051 |
-| multiclass | ids2018 | ids2018 | RandomForest | 2 | 0.722383 | 0.049347 |
-| multiclass | ids2018 | ids2018 | ShallowMLP | 2 | 0.588003 | 0.082923 |
-| multiclass | ids2018 | ids2018 | SoftVoting | 2 | 0.709957 | 0.034509 |
-| multiclass | ids2018 | ids2018 | XGBoost | 2 | 0.702491 | 0.049552 |
-| multiclass | unsw | unsw | DecisionTree | 2 | 0.495623 | 0.006574 |
-| multiclass | unsw | unsw | DeepMLP | 2 | 0.406050 | 0.067545 |
-| multiclass | unsw | unsw | FeatureCNN | 2 | 0.407905 | 0.002606 |
-| multiclass | unsw | unsw | RandomForest | 2 | 0.563278 | 0.029356 |
-| multiclass | unsw | unsw | ShallowMLP | 2 | 0.385522 | 0.061731 |
-| multiclass | unsw | unsw | SoftVoting | 2 | 0.550958 | 0.014233 |
-| multiclass | unsw | unsw | XGBoost | 2 | 0.521181 | 0.017209 |
+| multiclass | ids2018 | ids2018 | DecisionTree | 3 | 0.677509 | 0.033662 |
+| multiclass | ids2018 | ids2018 | DeepMLP | 3 | 0.573869 | 0.112182 |
+| multiclass | ids2018 | ids2018 | FeatureCNN | 3 | 0.543784 | 0.046055 |
+| multiclass | ids2018 | ids2018 | RandomForest | 3 | 0.717850 | 0.035766 |
+| multiclass | ids2018 | ids2018 | ShallowMLP | 3 | 0.538362 | 0.104070 |
+| multiclass | ids2018 | ids2018 | SoftVoting | 3 | 0.711064 | 0.024477 |
+| multiclass | ids2018 | ids2018 | XGBoost | 3 | 0.705952 | 0.035548 |
+| multiclass | unsw | unsw | DecisionTree | 3 | 0.523028 | 0.047693 |
+| multiclass | unsw | unsw | DeepMLP | 3 | 0.400606 | 0.048683 |
+| multiclass | unsw | unsw | FeatureCNN | 3 | 0.407409 | 0.002033 |
+| multiclass | unsw | unsw | RandomForest | 3 | 0.546743 | 0.035371 |
+| multiclass | unsw | unsw | ShallowMLP | 3 | 0.386476 | 0.043682 |
+| multiclass | unsw | unsw | SoftVoting | 3 | 0.537922 | 0.024720 |
+| multiclass | unsw | unsw | XGBoost | 3 | 0.495152 | 0.046697 |
 
 ## Scope
 

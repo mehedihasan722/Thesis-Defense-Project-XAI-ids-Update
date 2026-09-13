@@ -1,0 +1,12 @@
+{
+  "raw_rows": 17129715,
+  "unique_rows_with_extreme_rates": 211,
+  "feature_value_counts": {
+    "SRC_TO_DST_SECOND_BYTES": 208,
+    "DST_TO_SRC_SECOND_BYTES": 5
+  },
+  "maximum_absolute_raw_values": {
+    "SRC_TO_DST_SECOND_BYTES": 6.58802154063901e+304,
+    "DST_TO_SRC_SECOND_BYTES": 3.122085841488128e+73
+  }
+}

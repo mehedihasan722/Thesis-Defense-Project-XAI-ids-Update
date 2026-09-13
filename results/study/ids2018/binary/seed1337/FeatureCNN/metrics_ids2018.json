@@ -1,0 +1,16 @@
+{
+  "n": 80000,
+  "macro_f1": 0.9828523318595965,
+  "balanced_accuracy": 0.9759264979906963,
+  "accuracy": 0.992975,
+  "macro_average_precision": 0.9816357821883365,
+  "false_alarm_rate": 0.0017711152358417049,
+  "absent_test_classes": [],
+  "source": "ids2018",
+  "target": "ids2018",
+  "task": "binary",
+  "seed": 1337,
+  "model": "FeatureCNN",
+  "train_seconds": 48.716965699999946,
+  "inference_seconds": 0.7163339000001088
+}

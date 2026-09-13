@@ -1,0 +1,18 @@
+{
+  "n": 80000,
+  "macro_f1": 0.4550180130296492,
+  "balanced_accuracy": 0.7300960227762658,
+  "accuracy": 0.526075,
+  "macro_average_precision": 0.6942484671446275,
+  "false_alarm_rate": 0.5324964223472236,
+  "absent_test_classes": [
+    "DoS attacks-SlowHTTPTest"
+  ],
+  "source": "ids2018",
+  "target": "ids2018",
+  "task": "multiclass",
+  "seed": 1337,
+  "model": "DeepMLP",
+  "train_seconds": 32.735688799999934,
+  "inference_seconds": 0.3303310000001147
+}

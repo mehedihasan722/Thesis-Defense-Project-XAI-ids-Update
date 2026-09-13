@@ -50,6 +50,22 @@ Instance-level means across three LIME seeds, then class-stratified bootstrap (5
 
 [Scalable SVG](08_rq3_uncertainty.svg)
 
+## 09_feature_shift
+
+![09_feature_shift](09_feature_shift.png)
+
+Descriptive marginal shifts in encoded features. Class mixtures differ and features are correlated; no p-value or causal attribution is claimed. Zero fractions, medians and distances for all 39 features are preserved in shift/feature_shift.csv.
+
+[Scalable SVG](09_feature_shift.svg)
+
+## 10_across_seed_variation
+
+![10_across_seed_variation](10_across_seed_variation.png)
+
+Only model groups with all three seeds contribute. Error bars are sample standard deviations across training/split seeds, not confidence intervals. Native multiclass label inventories differ by dataset; these panels are not cross-taxonomy transfer tests.
+
+[Scalable SVG](10_across_seed_variation.svg)
+
 ## 06_completion
 
 ![06_completion](06_completion.png)

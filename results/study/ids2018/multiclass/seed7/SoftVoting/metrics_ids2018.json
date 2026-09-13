@@ -1,0 +1,16 @@
+{
+  "n": 80000,
+  "macro_f1": 0.6855556027581735,
+  "balanced_accuracy": 0.7171351772913208,
+  "accuracy": 0.9873625,
+  "macro_average_precision": 0.7566521497315312,
+  "false_alarm_rate": 0.006039469207213338,
+  "absent_test_classes": [],
+  "source": "ids2018",
+  "target": "ids2018",
+  "task": "multiclass",
+  "seed": 7,
+  "model": "SoftVoting",
+  "train_seconds": 101.71612509999977,
+  "inference_seconds": 3.807985400000007
+}

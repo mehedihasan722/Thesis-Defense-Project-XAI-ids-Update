@@ -1,9 +1,13 @@
-# Active study progress
+# Study progress
 
-The thesis report is deferred by user request. Store results, tables, analysis and workflow in Markdown until experiments are finished.
+The thesis report remains unchanged. Results, tables, figures and analysis are stored in Markdown.
 
-Completed: both corrected signed-log/float32 group-disjoint dataset preparations; three local LLM downloads; five study framework tests. The historical three-model audit reproduces aggregate arithmetic to within 5.17e-7 and finds positive within-model stability versus random-adjusted masking associations. See results/study/audit/ANALYSIS.md for evidence and unresolved replay checks.
+Completed: all 84 detector configurations and 126 evaluation cells across both datasets and three seeds; independent probability, label, macro-F1 and confusion-matrix validation; all 14 RQ3 pilots; calibration, imbalance and feature-shift analyses. Ten figures are embedded in results/study/RESULTS.md.
 
-Next: run the 84-configuration classical/neural matrix; implement and execute local LLM classification/explanations and frozen-model RQ3 explanation transfer. These are not yet completed. Preserve all historical results; never force a desired correlation.
+The historical audit reproduces original probabilities for 483 cases per tree model. Exact old masking replay remains unavailable because the original rankings were not saved. An inverse stability/faithfulness association alone does not establish falsification.
 
-Git destination: update/main at https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update.git. Push each meaningful tested change with a gitmoji title and detailed body.
+Remaining: complete the three local LLM runs, then evaluate valid explanations against random masks, retain invalid-output coverage, regenerate matched tables and figures, run final checks and publish. Interrupted LLM runs resume saved cases. These are CPU jobs and can take hours.
+
+The TinyLlama shared-prefix tokenizer correction is tested; equivalent single-token Qwen recovery is checked against the exact preserved legacy source. No outcomes are changed to force an expected relationship.
+
+Git destination: update/main at https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update.git. Detailed gitmoji commits; raw datasets, environments and weights remain excluded.

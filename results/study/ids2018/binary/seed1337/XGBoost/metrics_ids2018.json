@@ -1,0 +1,16 @@
+{
+  "n": 80000,
+  "macro_f1": 0.9870356911663176,
+  "balanced_accuracy": 0.9779227363892864,
+  "accuracy": 0.9947125,
+  "macro_average_precision": 0.9877007835182593,
+  "false_alarm_rate": 0.00011335137509386911,
+  "absent_test_classes": [],
+  "source": "ids2018",
+  "target": "ids2018",
+  "task": "binary",
+  "seed": 1337,
+  "model": "XGBoost",
+  "train_seconds": 5.437092699999994,
+  "inference_seconds": 0.30536129999995865
+}

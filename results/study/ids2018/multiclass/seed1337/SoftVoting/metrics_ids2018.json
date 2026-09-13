@@ -1,0 +1,18 @@
+{
+  "n": 80000,
+  "macro_f1": 0.7132797321556958,
+  "balanced_accuracy": 0.7633261954419802,
+  "accuracy": 0.990125,
+  "macro_average_precision": 0.7604186159907294,
+  "false_alarm_rate": 0.005044136191677175,
+  "absent_test_classes": [
+    "DoS attacks-SlowHTTPTest"
+  ],
+  "source": "ids2018",
+  "target": "ids2018",
+  "task": "multiclass",
+  "seed": 1337,
+  "model": "SoftVoting",
+  "train_seconds": 83.01604459999999,
+  "inference_seconds": 2.069893100000172
+}

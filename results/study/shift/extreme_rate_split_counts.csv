@@ -1,0 +1,10 @@
+seed,split,sampled_rows,rows_with_extreme_raw_rates
+42,train,200000,5
+42,validation,40000,1
+42,test,80000,0
+7,train,200000,3
+7,validation,40000,0
+7,test,80000,3
+1337,train,200000,3
+1337,validation,40000,1
+1337,test,80000,3

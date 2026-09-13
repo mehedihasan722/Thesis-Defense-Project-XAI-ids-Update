@@ -1,0 +1,11 @@
+,Analysis,Backdoor,Benign,DoS,Exploits,Fuzzers,Generic,Reconnaissance,Shellcode,Worms
+Analysis,10,6,2,7,4,2,1,1,0,0
+Backdoor,4,19,0,4,5,0,4,5,2,0
+Benign,23,26,75849,62,104,134,20,15,18,1
+DoS,7,13,1,69,38,12,10,9,5,1
+Exploits,13,19,3,182,821,24,56,69,13,2
+Fuzzers,4,14,10,29,15,514,16,13,101,0
+Generic,5,6,0,11,19,9,182,3,8,1
+Reconnaissance,9,8,0,8,19,1,2,1231,0,0
+Shellcode,0,0,0,2,1,4,0,7,39,0
+Worms,0,0,0,2,0,2,0,0,0,10

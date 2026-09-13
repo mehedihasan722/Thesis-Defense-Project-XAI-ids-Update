@@ -86,6 +86,23 @@ def main():
             ax.bar(np.arange(7),selected.macro_f1_mean,yerr=selected.macro_f1_sd,capsize=3,color='#4393c3');ax.set_xticks(range(7),LABELS,rotation=35,ha='right');ax.set_ylim(0,1.05);ax.set_ylabel('Macro-F1');ax.set_title(f'{source.upper()} · {task} · {selected.macro_f1_mean.notna().sum()}/7 complete')
         fig.suptitle('Within-dataset performance · mean ± SD across 3 seeds');fig.tight_layout()
         save(fig,'10_across_seed_variation','Only model groups with all three seeds contribute. Error bars are sample standard deviations across training/split seeds, not confidence intervals. Native multiclass label inventories differ by dataset; these panels are not cross-taxonomy transfer tests.')
+    llm_path=BASE/'llm/matched_metrics.csv'
+    if llm_path.exists():
+        matched=pd.read_csv(llm_path);names=MODELS+sorted(set(matched.model)-set(MODELS));labels=LABELS+[m.split('/')[1] for m in names[7:]]
+        fig,axes=plt.subplots(2,2,figsize=(14,8),sharey=True)
+        for ax,(source,target) in zip(axes.flat,directions):
+            data=matched[(matched.source==source)&(matched.target==target)].set_index('model').reindex(names)
+            ax.bar(np.arange(len(names)),data.macro_f1,color=['#4393c3']*7+['#d95f02']*(len(names)-7));ax.set_xticks(range(len(names)),labels,rotation=55,ha='right',fontsize=8);ax.set_ylim(0,1.05);ax.set_ylabel('Macro-F1');ax.set_title(f'{source.upper()} → {target.upper()}')
+        fig.suptitle('Matched balanced 100-case comparison · local LLMs in orange');fig.tight_layout()
+        save(fig,'11_llm_matched_classification','Same 50 benign / 50 attack unique feature groups per target for detectors and LLMs. These are different prevalence and sample sizes from full-test detector results. LLMs use rounded signed-log flow serialization and four source-training examples, not trained detector feature representations.')
+    explanation_path=BASE/'llm/explanation_checks.csv'
+    if explanation_path.exists():
+        checks=pd.read_csv(explanation_path);fig,ax=plt.subplots(figsize=(11,4.5));names=sorted(checks.model.unique());x=np.arange(len(names))
+        own=checks[checks.kind=='own'].groupby('model')[['valid_json_with_allowed_features','n']].sum().reindex(names)
+        det=checks[checks.kind=='detector'].groupby('model')[['valid_json_with_allowed_features','evidence_feature_grounded','n']].sum().reindex(names)
+        for offset,values,label,color in [(-.25,own.valid_json_with_allowed_features/own.n,'Own: valid format/features','#4393c3'),(0,det.valid_json_with_allowed_features/det.n,'Detector: valid format/features','#92c5de'),(.25,det.evidence_feature_grounded/det.n,'Detector: evidence feature match','#d95f02')]:ax.bar(x+offset,values,width=.24,label=label,color=color)
+        ax.set_xticks(x,[m.split('/')[1] for m in names]);ax.set_ylim(0,1.05);ax.set_ylabel('Fraction of generated explanations');ax.set_title('Explanation failure accounting · all generated cases in denominator');ax.legend(fontsize=8)
+        save(fig,'12_llm_explanation_checks','Counts aggregate four source/target directions per model. Feature matching is a limited grounding check, not verification of every prose claim or causal validity. Malformed or truncated outputs remain in the denominator. See exact counts and unmodified outputs in llm/.')
     complete_models=len(d[['source','task','seed','model']].drop_duplicates())
     complete_xai=sum(json.loads(p.read_text()).get('status')=='complete' for p in (BASE/'xai').glob('*/*/manifest.json'))
     complete_llm=sum(json.loads(p.read_text()).get('status')=='complete' for p in (BASE/'llm').glob('*/full/manifest.json'))
@@ -111,6 +128,7 @@ def main():
     report.write_text(existing+'\n'+'\n'.join(embedded),encoding='utf-8')
     print(f'Saved and embedded {len(CAPTIONS)} figures in PNG and SVG')
 if __name__=='__main__':main()
+
 
 
 

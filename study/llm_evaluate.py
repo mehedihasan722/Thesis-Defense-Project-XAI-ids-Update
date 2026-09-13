@@ -5,6 +5,7 @@ import numpy as np,pandas as pd,torch,joblib
 from transformers import AutoTokenizer,AutoModelForCausalLM
 from study.xai_transfer import cohort
 from study.representation import log_values
+from study.llm_tokens import label_tokens,append_prefix
 ROOT=Path(__file__).resolve().parents[1]
 
 def vector(z):return ','.join(format(float(v),'.3g') for v in z)
@@ -14,17 +15,19 @@ def main(model,limit):
     downloads=json.loads((ROOT/'results/study/llm_downloads.json').read_text())
     info=downloads[model];tokenizer=AutoTokenizer.from_pretrained(info['path'],local_files_only=True,trust_remote_code=False)
     llm=AutoModelForCausalLM.from_pretrained(info['path'],local_files_only=True,trust_remote_code=False,torch_dtype=torch.float32).eval()
-    label_ids=[tokenizer.encode(s,add_special_tokens=False) for s in ['0','1']]
-    assert all(len(t)==1 for t in label_ids),'Label scoring requires single-token candidates'
-    label_ids=[t[0] for t in label_ids]
+    label_prefix,label_ids=label_tokens(tokenizer)
     max_context=min(int(getattr(llm.config,'max_position_embeddings',2048)),8192)
     features=json.loads((ROOT/'data/study/manifest.json').read_text())['features']
     out=ROOT/'results/study/llm'/model.replace('/','--')/('full' if limit==100 else f'pilot{limit}')
     out.mkdir(parents=True,exist_ok=True)
-    signature=hashlib.sha256((Path(__file__).read_text()+info['revision']+(ROOT/'data/study/manifest.json').read_text()+str(limit)).encode()).hexdigest()
+    signature=hashlib.sha256((Path(__file__).read_text()+Path(__file__).with_name('llm_tokens.py').read_text()+info['revision']+(ROOT/'data/study/manifest.json').read_text()+str(limit)).encode()).hexdigest()
     manifest=out/'manifest.json'
-    if manifest.exists():assert json.loads(manifest.read_text())['signature']==signature,'Changed LLM protocol'
-    meta=dict(model=model,revision=info['revision'],signature=signature,dtype='float32',quantization=None,cases_per_target=limit,classification='normalized conditional scores for single-token 0/1; not calibrated probability',status='running')
+    prior_signature=None
+    if manifest.exists():
+        prior_signature=json.loads(manifest.read_text())['signature']
+        legacy=hashlib.sha256((Path(__file__).with_name('llm_evaluate_single_token_v1.py').read_text()+info['revision']+(ROOT/'data/study/manifest.json').read_text()+str(limit)).encode()).hexdigest()
+        assert prior_signature==signature or (not label_prefix and prior_signature==legacy),'Changed LLM protocol'
+    meta=dict(model=model,revision=info['revision'],signature=signature,dtype='float32',quantization=None,cases_per_target=limit,classification='normalized full 0/1 candidate likelihoods; common prefix cancels; not calibrated probability',label_prefix_tokens=label_prefix,label_suffix_tokens=label_ids,compatible_prior_signature=prior_signature,status='running')
     manifest.write_text(json.dumps(meta,indent=2))
     path=out/'cases.jsonl';records=[json.loads(l) for l in path.read_text().splitlines()] if path.exists() else []
     seen={(r['source'],r['target'],r['row']) for r in records}
@@ -33,7 +36,8 @@ def main(model,limit):
         assert ids.shape[1]+reserve<=max_context,f'Context overflow {ids.shape[1]} + {reserve} > {max_context}'
         return ids
     def classify(prompt):
-        ids=tokens(prompt)
+        ids=append_prefix(tokens(prompt),label_prefix)
+        assert ids.shape[1]<=max_context
         with torch.inference_mode():scores=llm(input_ids=ids).logits[0,-1,label_ids].softmax(dim=0).numpy()
         return scores,ids.shape[1]
     def explain(prompt):
@@ -75,3 +79,4 @@ def main(model,limit):
 
 if __name__=='__main__':
     ap=argparse.ArgumentParser();ap.add_argument('--model',required=True);ap.add_argument('--limit',type=int,choices=[2,100],default=100);main(**vars(ap.parse_args()))
+

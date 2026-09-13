@@ -30,3 +30,7 @@ Keep the supplied IIUC reference PDF format for the eventual revised manuscript.
 ## Protocol correction before any successful new fit
 
 The initial tree fit failed because some raw finite values exceed float32 range. Apply the common signed-log representation to trees as well as neural networks and rebuild group assignments at that input precision. Count extreme raw values in the dataset audit. No successful model result preceded this correction.
+
+## Tokenizer compatibility correction before TinyLlama execution
+
+TinyLlama encodes standalone 0 and 1 labels with a shared whitespace token followed by a digit. The evaluator appends that prefix before scoring suffix logits; its common likelihood cancels when normalizing the two full candidates. Empty-prefix Qwen and SmolLM2 behavior is unchanged. Tests verify prefix handling and normalization. The original scorer is preserved in llm_evaluate_single_token_v1.py; its signature exactly matches the earlier Qwen run. Only that known equivalent empty-prefix signature can migrate during recovery.

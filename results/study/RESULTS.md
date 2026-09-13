@@ -1,6 +1,6 @@
 # Expanded study: measured results
 
-Partial detector snapshot: 117 completed evaluation cells. Planned classical/neural matrix: 84 fitted configurations, 126 evaluation cells. LLM and RQ3 results are reported separately. No thesis report is generated.
+Complete detector matrix: 126 completed evaluation cells. Planned classical/neural matrix: 84 fitted configurations, 126 evaluation cells. LLM and RQ3 results are reported separately. No thesis report is generated.
 
 Training uses capped samples after global encoded-feature group partitioning. Source-only preprocessing; frozen binary models are evaluated within and across datasets. Multiclass taxonomies remain dataset-specific. One seed is not a final multi-seed estimate.
 
@@ -104,6 +104,13 @@ Training uses capped samples after global encoded-feature group partitioning. So
 | multiclass | ids2018 | ids2018 | 42 | ShallowMLP | 80000 | 0.529367 | 0.730141 | 0.488680 |
 | multiclass | ids2018 | ids2018 | 42 | SoftVoting | 80000 | 0.734358 | 0.731579 | 0.004093 |
 | multiclass | ids2018 | ids2018 | 42 | XGBoost | 80000 | 0.737529 | 0.731315 | 0.000288 |
+| multiclass | ids2018 | ids2018 | 1337 | DecisionTree | 80000 | 0.668605 | 0.758266 | 0.134690 |
+| multiclass | ids2018 | ids2018 | 1337 | DeepMLP | 80000 | 0.455018 | 0.730096 | 0.532496 |
+| multiclass | ids2018 | ids2018 | 1337 | FeatureCNN | 80000 | 0.490662 | 0.701873 | 0.025306 |
+| multiclass | ids2018 | ids2018 | 1337 | RandomForest | 80000 | 0.708784 | 0.765042 | 0.027615 |
+| multiclass | ids2018 | ids2018 | 1337 | ShallowMLP | 80000 | 0.439082 | 0.742535 | 0.527311 |
+| multiclass | ids2018 | ids2018 | 1337 | SoftVoting | 80000 | 0.713280 | 0.763326 | 0.005044 |
+| multiclass | ids2018 | ids2018 | 1337 | XGBoost | 80000 | 0.712876 | 0.750275 | 0.000128 |
 | multiclass | unsw | unsw | 7 | DecisionTree | 80000 | 0.500272 | 0.679792 | 0.005288 |
 | multiclass | unsw | unsw | 7 | DeepMLP | 80000 | 0.358288 | 0.641799 | 0.096810 |
 | multiclass | unsw | unsw | 7 | FeatureCNN | 80000 | 0.409748 | 0.650038 | 0.008698 |
@@ -119,6 +126,8 @@ Training uses capped samples after global encoded-feature group partitioning. So
 | multiclass | unsw | unsw | 42 | SoftVoting | 80000 | 0.540894 | 0.596652 | 0.005351 |
 | multiclass | unsw | unsw | 42 | XGBoost | 80000 | 0.509012 | 0.483947 | 0.002429 |
 | multiclass | unsw | unsw | 1337 | DecisionTree | 80000 | 0.577837 | 0.671795 | 0.005285 |
+| multiclass | unsw | unsw | 1337 | DeepMLP | 80000 | 0.389719 | 0.601199 | 0.008616 |
+| multiclass | unsw | unsw | 1337 | FeatureCNN | 80000 | 0.406417 | 0.574712 | 0.009993 |
 | multiclass | unsw | unsw | 1337 | RandomForest | 80000 | 0.513673 | 0.636686 | 0.004616 |
 | multiclass | unsw | unsw | 1337 | ShallowMLP | 80000 | 0.388384 | 0.603504 | 0.010177 |
 | multiclass | unsw | unsw | 1337 | SoftVoting | 80000 | 0.511850 | 0.588478 | 0.003987 |
@@ -172,6 +181,18 @@ Same seed-42 split and random-forest hyperparameters; only class weighting or tr
 Instance-level means across three LIME seeds, then class-stratified bootstrap (5000 repeats). Intervals are conditional on a single trained model and small balanced cohort; not multiplicity-adjusted. Intervals crossing zero do not establish superiority over random masking.
 
 [Scalable SVG](figures/08_rq3_uncertainty.svg)
+
+![09_feature_shift](figures/09_feature_shift.png)
+
+Descriptive marginal shifts in encoded features. Class mixtures differ and features are correlated; no p-value or causal attribution is claimed. Zero fractions, medians and distances for all 39 features are preserved in shift/feature_shift.csv.
+
+[Scalable SVG](figures/09_feature_shift.svg)
+
+![10_across_seed_variation](figures/10_across_seed_variation.png)
+
+Only model groups with all three seeds contribute. Error bars are sample standard deviations across training/split seeds, not confidence intervals. Native multiclass label inventories differ by dataset; these panels are not cross-taxonomy transfer tests.
+
+[Scalable SVG](figures/10_across_seed_variation.svg)
 
 ![06_completion](figures/06_completion.png)
 

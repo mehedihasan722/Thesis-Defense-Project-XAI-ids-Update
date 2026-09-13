@@ -1,0 +1,16 @@
+{
+  "n": 80000,
+  "macro_f1": 0.411250569308831,
+  "balanced_accuracy": 0.6041364732211564,
+  "accuracy": 0.45185,
+  "macro_average_precision": 0.5246813580126161,
+  "false_alarm_rate": 0.5950805503209261,
+  "absent_test_classes": [],
+  "source": "unsw",
+  "target": "ids2018",
+  "task": "binary",
+  "seed": 1337,
+  "model": "DeepMLP",
+  "train_seconds": 64.09071329999983,
+  "inference_seconds": 0.2773199000000659
+}

@@ -1,0 +1,18 @@
+{
+  "n": 80000,
+  "macro_f1": 0.7128755268436413,
+  "balanced_accuracy": 0.7502747526261129,
+  "accuracy": 0.9944125,
+  "macro_average_precision": 0.7763874850662392,
+  "false_alarm_rate": 0.00012752029698060273,
+  "absent_test_classes": [
+    "DoS attacks-SlowHTTPTest"
+  ],
+  "source": "ids2018",
+  "target": "ids2018",
+  "task": "multiclass",
+  "seed": 1337,
+  "model": "XGBoost",
+  "train_seconds": 55.8477412000002,
+  "inference_seconds": 1.255478900000071
+}

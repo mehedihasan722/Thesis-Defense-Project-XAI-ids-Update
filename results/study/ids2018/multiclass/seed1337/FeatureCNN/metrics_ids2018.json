@@ -1,0 +1,18 @@
+{
+  "n": 80000,
+  "macro_f1": 0.4906623665772695,
+  "balanced_accuracy": 0.7018730774306629,
+  "accuracy": 0.9411,
+  "macro_average_precision": 0.6970845907505259,
+  "false_alarm_rate": 0.02530569448970628,
+  "absent_test_classes": [
+    "DoS attacks-SlowHTTPTest"
+  ],
+  "source": "ids2018",
+  "target": "ids2018",
+  "task": "multiclass",
+  "seed": 1337,
+  "model": "FeatureCNN",
+  "train_seconds": 56.77502289999984,
+  "inference_seconds": 0.7271021999999903
+}

@@ -1,0 +1,16 @@
+{
+  "n": 80000,
+  "macro_f1": 0.44309431039018293,
+  "balanced_accuracy": 0.45416287963970364,
+  "accuracy": 0.975825,
+  "macro_average_precision": 0.6311158765134703,
+  "false_alarm_rate": 0.002124534438440959,
+  "absent_test_classes": [],
+  "source": "unsw",
+  "target": "unsw",
+  "task": "multiclass",
+  "seed": 1337,
+  "model": "XGBoost",
+  "train_seconds": 47.92250270000022,
+  "inference_seconds": 1.2592978999996376
+}

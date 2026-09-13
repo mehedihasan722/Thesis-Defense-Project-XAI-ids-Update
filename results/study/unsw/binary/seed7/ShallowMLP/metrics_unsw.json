@@ -1,0 +1,16 @@
+{
+  "n": 80000,
+  "macro_f1": 0.6656811830965397,
+  "balanced_accuracy": 0.952192692027082,
+  "accuracy": 0.907525,
+  "macro_average_precision": 0.9803772691706998,
+  "false_alarm_rate": 0.09517621173715565,
+  "absent_test_classes": [],
+  "source": "unsw",
+  "target": "unsw",
+  "task": "binary",
+  "seed": 7,
+  "model": "ShallowMLP",
+  "train_seconds": 19.214602600000035,
+  "inference_seconds": 0.20389739999995982
+}
