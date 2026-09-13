@@ -66,6 +66,14 @@ Only model groups with all three seeds contribute. Error bars are sample standar
 
 [Scalable SVG](10_across_seed_variation.svg)
 
+## 13_masking_sensitivity
+
+![13_masking_sensitivity](13_masking_sensitivity.png)
+
+Cross-domain results for source-background mean/median and absolute/signed-descending rankings. Same cases, saved weights and random controls; no retraining. Signed ranking may include nonpositive features when fewer than k positive weights exist. Full within-domain results and uncertainty intervals are in xai/sensitivity/ANALYSIS.md.
+
+[Scalable SVG](13_masking_sensitivity.svg)
+
 ## 06_completion
 
 ![06_completion](06_completion.png)

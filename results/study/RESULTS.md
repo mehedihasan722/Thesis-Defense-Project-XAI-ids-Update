@@ -194,6 +194,12 @@ Only model groups with all three seeds contribute. Error bars are sample standar
 
 [Scalable SVG](figures/10_across_seed_variation.svg)
 
+![13_masking_sensitivity](figures/13_masking_sensitivity.png)
+
+Cross-domain results for source-background mean/median and absolute/signed-descending rankings. Same cases, saved weights and random controls; no retraining. Signed ranking may include nonpositive features when fewer than k positive weights exist. Full within-domain results and uncertainty intervals are in xai/sensitivity/ANALYSIS.md.
+
+[Scalable SVG](figures/13_masking_sensitivity.svg)
+
 ![06_completion](figures/06_completion.png)
 
 Counts are read from completion markers when regenerated. Unfinished includes pending or interrupted/running jobs; this chart does not independently verify live processes. LLM smoke tests do not count as full runs.

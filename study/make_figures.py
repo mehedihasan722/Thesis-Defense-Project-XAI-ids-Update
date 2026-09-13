@@ -103,6 +103,20 @@ def main():
         for offset,values,label,color in [(-.25,own.valid_json_with_allowed_features/own.n,'Own: valid format/features','#4393c3'),(0,det.valid_json_with_allowed_features/det.n,'Detector: valid format/features','#92c5de'),(.25,det.evidence_feature_grounded/det.n,'Detector: evidence feature match','#d95f02')]:ax.bar(x+offset,values,width=.24,label=label,color=color)
         ax.set_xticks(x,[m.split('/')[1] for m in names]);ax.set_ylim(0,1.05);ax.set_ylabel('Fraction of generated explanations');ax.set_title('Explanation failure accounting · all generated cases in denominator');ax.legend(fontsize=8)
         save(fig,'12_llm_explanation_checks','Counts aggregate four source/target directions per model. Feature matching is a limited grounding check, not verification of every prose claim or causal validity. Malformed or truncated outputs remain in the denominator. See exact counts and unmodified outputs in llm/.')
+    sensitivity_path=BASE/'xai/sensitivity/summary.csv'
+    if sensitivity_path.exists():
+        sensitivity=pd.read_csv(sensitivity_path);matrix=[];row_names=[]
+        combinations=[('median','absolute'),('mean','absolute'),('median','signed_descending'),('mean','signed_descending')]
+        for source in ['unsw','ids2018']:
+            target='ids2018' if source=='unsw' else 'unsw'
+            for model in MODELS:
+                group=sensitivity[(sensitivity.source==source)&(sensitivity.target==target)&(sensitivity.model==model)].set_index(['baseline','ranking'])
+                matrix.append([group.loc[c,'advantage'] for c in combinations]);row_names.append(f'{source.upper()} → {target.upper()} · {model}')
+        matrix=np.asarray(matrix);limit=max(np.abs(matrix).max(),1e-6);fig,ax=plt.subplots(figsize=(11,7));im=ax.imshow(matrix,cmap='RdBu_r',vmin=-limit,vmax=limit,aspect='auto')
+        ax.set_yticks(range(len(row_names)),row_names,fontsize=9);ax.set_xticks(range(4),['Median / absolute','Mean / absolute','Median / signed','Mean / signed'],rotation=20,ha='right');ax.set_title('Post-hoc transfer masking sensitivity · same saved LIME explanations')
+        for (i,j),value in np.ndenumerate(matrix):ax.text(j,i,f'{value:.3f}',ha='center',va='center',fontsize=9,bbox=dict(facecolor='white',alpha=.7,edgecolor='none',pad=1))
+        fig.colorbar(im,ax=ax,label='LIME minus random removal drop',shrink=.8)
+        save(fig,'13_masking_sensitivity','Cross-domain results for source-background mean/median and absolute/signed-descending rankings. Same cases, saved weights and random controls; no retraining. Signed ranking may include nonpositive features when fewer than k positive weights exist. Full within-domain results and uncertainty intervals are in xai/sensitivity/ANALYSIS.md.')
     complete_models=len(d[['source','task','seed','model']].drop_duplicates())
     complete_xai=sum(json.loads(p.read_text()).get('status')=='complete' for p in (BASE/'xai').glob('*/*/manifest.json'))
     complete_llm=sum(json.loads(p.read_text()).get('status')=='complete' for p in (BASE/'llm').glob('*/full/manifest.json'))
@@ -128,6 +142,7 @@ def main():
     report.write_text(existing+'\n'+'\n'.join(embedded),encoding='utf-8')
     print(f'Saved and embedded {len(CAPTIONS)} figures in PNG and SVG')
 if __name__=='__main__':main()
+
 
 
 
