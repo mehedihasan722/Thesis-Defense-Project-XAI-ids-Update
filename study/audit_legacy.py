@@ -1,0 +1,66 @@
+"""Recompute historical metric arithmetic without changing historical evidence."""
+from pathlib import Path
+import hashlib,json
+import numpy as np
+import pandas as pd
+from scipy.stats import spearmanr
+
+ROOT=Path(__file__).resolve().parents[1]
+OUT=ROOT/'results/study/audit'
+
+def main():
+    OUT.mkdir(parents=True,exist_ok=True)
+    rows=[]; hashes={}
+    for model in ['DecisionTree','RandomForest','XGBoost']:
+        paths=[ROOT/f'results/tables/rq{i}_{kind}_{model}_multiclass.csv' for i,kind in [(1,'stability'),(2,'faithfulness')]]
+        s,d=[pd.read_csv(p) for p in paths]
+        for p in paths: hashes[str(p.relative_to(ROOT))]=hashlib.sha256(p.read_bytes()).hexdigest()
+        comp=d.p_original-d[[f'comp_k{k}' for k in range(1,11)]].mean(axis=1)
+        suff=d[[f'suff_k{k}' for k in range(1,11)]].mean(axis=1)/d.p_original
+        assert np.isfinite(comp).all() and np.isfinite(suff).all()
+        comp_error=float(np.abs(comp-d.comprehensiveness_auc).max())
+        suff_error=float(np.abs(suff-d.sufficiency_auc).max())
+        avg=d.groupby(['instance','explainer'])[['comprehensiveness_auc','sufficiency_auc']].mean()
+        paired=avg.comprehensiveness_auc.unstack()
+        paired['advantage']=paired.LIME-paired.Random
+        joint=s.merge(paired,on='instance',validate='one_to_one')
+        rows.append(dict(model=model,matched_instances=len(joint),jaccard5=joint.jaccard_at_5.mean(),lime_drop=joint.LIME.mean(),random_drop=joint.Random.mean(),paired_advantage=joint.advantage.mean(),rho_raw=spearmanr(joint.jaccard_at_5,joint.LIME).statistic,rho_advantage=spearmanr(joint.jaccard_at_5,joint.advantage).statistic,max_comp_error=float(np.abs(comp-d.comprehensiveness_auc).max()),max_suff_error=float(np.abs(suff-d.sufficiency_auc).max())))
+        rows[-1]['max_comp_error']=comp_error
+        rows[-1]['max_suff_error']=suff_error
+        joint.to_csv(OUT/f'{model}_matched.csv',index=False)
+    table=pd.DataFrame(rows);table.to_csv(OUT/'legacy_arithmetic.csv',index=False)
+    (OUT/'inputs_sha256.json').write_text(json.dumps(hashes,indent=2))
+    columns=['model','matched_instances','jaccard5','lime_drop','random_drop','paired_advantage','rho_raw','rho_advantage']
+    lines=['| '+' | '.join(columns)+' |','| '+' | '.join(['---']*len(columns))+' |']
+    for row in rows: lines.append('| '+' | '.join(f'{row[c]:.6f}' if isinstance(row[c],float) else str(row[c]) for c in columns)+' |')
+    text='''# Historical stability and faithfulness audit
+
+Scope: the three original top-level RQ2 CSVs and corresponding RQ1 CSVs. This is an arithmetic and matched-instance audit, not a rerun of their model inference. SHA256 input hashes preserve provenance. Later corrected runs are separate evidence.
+
+## Measured results
+
+'''+ '\n'.join(lines)+'''
+
+Stored aggregates are checked against saved curves in legacy_arithmetic.csv. Nonzero maximum errors require investigation of historical metric versions; the table retains the original stored scores for provenance. This does not establish that the original perturbations, model, class selection or sampling were correct.
+
+`comp_k*` is remaining predicted-class probability after removing features: lower means a larger masking effect. `comprehensiveness_auc` is the mean original-minus-masked probability: higher means a larger effect. It is a discrete mean over k=1..10, not an integrated AUC. `sufficiency_auc` is retained probability divided by original probability: higher means more retained probability; it can exceed one and is not the conventional lower-is-better sufficiency gap. These quantities must not share an unlabeled faithfulness axis.
+
+The table uses LIME-minus-random differences on matched instances. Raw drops also reflect the detector's sensitivity to masking. Spearman values are descriptive within each model; three model averages cannot establish a general stability-faithfulness law. No independent-sample significance claim is made because duplicate feature groups can invalidate row independence.
+
+## Interpretation and unresolved checks
+
+An inverse association is not evidence of falsification. Repeatability and predictive relevance are distinct properties. A consistently irrelevant ranking can be stable, while different rankings can identify influential features. This distinction is supported by [Yeh et al., NeurIPS 2019](https://papers.neurips.cc/paper_files/paper/2019/hash/a7471fdc77b3435276507cc8f2dc2569-Abstract.html), which shows that optimizing explanation sensitivity alone permits a vacuous constant explanation. Their sensitivity measure is not identical to this project's seed Jaccard.
+
+Confirmed reporting risks: ambiguous AUC labels; opposite direction for raw removal curves versus probability drops; interpreting raw masking sensitivity as explanation quality without its random control. The inspected current runner fixes the original predicted class before masking and computes baselines on training rows. Historical CSVs alone cannot prove that they were generated by this exact code revision.
+
+Still required: replay original model cases with recorded rankings; inspect baseline mean versus median effects; compare signed supporting-feature rankings with absolute-magnitude rankings (opposing evidence can increase probability when removed); audit LIME seed recovery and duplicate-group effects. Do not alter outcomes to force a positive correlation. Preserve historical data and label conclusions provisional until these checks complete.
+
+## Workflow
+
+Run `.venv-study/Scripts/python.exe -m study.audit_legacy`. New study results use globally group-disjoint encoded features, source-only preprocessing, frozen-model masking, and paired random controls. Save subsequent result tables and analysis in Markdown. Thesis report changes are deferred by user request.
+'''
+    (OUT/'ANALYSIS.md').write_text(text,encoding='utf-8')
+    print(table.to_string(index=False))
+
+if __name__=='__main__': main()
+

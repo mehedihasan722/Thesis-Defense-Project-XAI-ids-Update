@@ -22,16 +22,18 @@ class Predictor:
         self.model=model;self.n_classes=n_classes;self.scaler=scaler;self.members=members
         self.class_indices=class_indices;self.classes_=np.arange(n_classes)
     def predict_proba(self,x):
-        x=np.asarray(x,dtype=np.float64)
-        if self.members:return np.mean([m.predict_proba(x) for m in self.members],axis=0)
+        return self.predict_encoded(log_values(x))
+    def predict_encoded(self,z):
+        z=np.asarray(z,dtype=np.float64)
+        if self.members:return np.mean([m.predict_encoded(z) for m in self.members],axis=0)
         if self.scaler is not None:
-            z=self.scaler.transform(log_values(x)).astype(np.float32)
+            z=self.scaler.transform(z).astype(np.float32)
             self.model.eval();values=[]
             with torch.inference_mode():
                 for start in range(0,len(z),4096):values.append(torch.softmax(self.model(torch.from_numpy(z[start:start+4096])),dim=1).numpy())
             return np.concatenate(values)
-        raw=self.model.predict_proba(log_values(x))
-        result=np.zeros((len(x),self.n_classes))
+        raw=self.model.predict_proba(z)
+        result=np.zeros((len(z),self.n_classes))
         result[:,self.class_indices]=raw
         return result
     def predict(self,x):return self.predict_proba(x).argmax(axis=1)

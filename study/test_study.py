@@ -26,6 +26,7 @@ class StudyTests(unittest.TestCase):
         for name in ['ShallowMLP','DeepMLP','FeatureCNN']:
             model=neural_model(name,39,3);predictor=Predictor(model,3,scaler=scaler)
             p=predictor.predict_proba(x);self.assertEqual(p.shape,(20,3));np.testing.assert_allclose(p.sum(1),1,atol=1e-6)
+            np.testing.assert_allclose(predictor.predict_encoded(log_values(x)),p)
             with tempfile.TemporaryDirectory() as folder:
                 path=Path(folder)/'m.joblib';joblib.dump(predictor,path);np.testing.assert_allclose(joblib.load(path).predict_proba(x),p)
             predictor.predict_proba(x*100);np.testing.assert_array_equal(scaler.mean_,before)

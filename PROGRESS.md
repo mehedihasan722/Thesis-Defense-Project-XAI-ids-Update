@@ -1,9 +1,9 @@
-# Active study progress - 13 September 2026
+# Active study progress
 
-The user requested a fresh two-dataset study with multiple neural/deep-learning models and LLMs for both classification and explanations. This replaces completion of the smaller previous experimental matrix as the active objective. Existing files and completed historical results are preserved.
+The thesis report is deferred by user request. Store results, tables, analysis and workflow in Markdown until experiments are finished.
 
-Completed: isolated CPU runtime, second dataset download, streaming preparation, three global group-disjoint splits for both datasets, exact-feature overlap assertions, four new framework tests. The previous study's ten protocol tests also passed.
+Completed: both corrected signed-log/float32 group-disjoint dataset preparations; three local LLM downloads; five study framework tests. The historical three-model audit reproduces aggregate arithmetic to within 5.17e-7 and finds positive within-model stability versus random-adjusted masking associations. See results/study/audit/ANALYSIS.md for evidence and unresolved replay checks.
 
-Active: fresh classical/neural training matrix, local LLM downloads and classification/explanation implementation. See `results/study/training_status.json` and logs for measured execution status. Final comparison tables and the expanded thesis are pending.
+Next: run the 84-configuration classical/neural matrix; implement and execute local LLM classification/explanations and frozen-model RQ3 explanation transfer. These are not yet completed. Preserve all historical results; never force a desired correlation.
 
-Git destination: `update` remote, https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update.git. Use gitmoji-style commits with detailed rationale, validation and limitations; push every meaningful completed change. Preserve `origin` as the original repository. Never commit raw datasets, environments, credentials, weights or temporary files.
+Git destination: update/main at https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update.git. Push each meaningful tested change with a gitmoji title and detailed body.
