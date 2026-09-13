@@ -7,7 +7,8 @@
 | Pull requests | Template covering rationale, experimental impact and validation |
 | Actions | Protocol CI runs dataset-free tests, dependency checks and figure-link checks on pushes/PRs or manual dispatch |
 | Security and quality | Security reporting guidance, read-only CI permissions and pinned action revisions; monthly Dependabot action-update proposals |
-| Projects / Wiki | Current progress and research ledger remain versioned in Markdown; no duplicate board or wiki is required for these workflows |
+| Wiki | [Published guide](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/wiki) covers setup, protocol, evidence navigation and metric interpretation; numerical evidence remains versioned in this repository |
+| Projects | No board configured yet; current progress remains in PROGRESS.md. A board can track To do, Running, Review and Done without duplicating result tables |
 | Insights | GitHub derives activity and community information from repository history and these contribution files |
 
 The CI workflow does not train models, download datasets or request API credentials. Full LLM and research runs remain local and checkpointed. CI success is a code/protocol check, not proof that every scientific conclusion is correct.
