@@ -25,3 +25,11 @@ Track concrete problems and remaining work in GitHub Issues. After a task is ver
 - [Complete TinyLlama and SmolLM2 classification and explanation runs](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/issues/4) — open at creation.
 - [Finish LLM masking validation, matched analysis and final figures](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/issues/5) — open at creation.
 - [Investigate interrupted experiment processes and stale running status](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/issues/6) — open at creation.
+
+## GitHub Agents
+
+Repository-wide guidance is in [.github/copilot-instructions.md](../.github/copilot-instructions.md). It describes the research protocol, dataset-free tests, checkpoint constraints and issue-completion requirements.
+
+The Agents page displays GitHub-hosted agent sessions. Adding instructions configures repository context; it does not start a session or move the existing local experiments to GitHub. No hosted session was launched as part of this setup. Use a bounded code or documentation issue for any future hosted task; local data-dependent experiment execution remains with the existing runner.
+
+Reference: [GitHub repository custom instructions](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions).
