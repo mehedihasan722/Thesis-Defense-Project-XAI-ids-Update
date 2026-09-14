@@ -14,3 +14,7 @@ Stability, random-adjusted removal effect, sufficiency gap and classification qu
 Timing limitation: runs share CPU resources, so recorded times are operational observations, not controlled hardware benchmarks. Neural training times after epoch recovery cover the current execution segment, not necessarily all interrupted work; do not compare those as complete training costs. Classification and explanation outputs remain valid independently of this timing limitation.
 
 The thesis report is intentionally unchanged until experiments and their analysis are complete. Completed and pending status must remain explicit in Markdown. Historical outputs remain separate from the restarted study.
+
+## Concurrent execution amendment, 14 September 2026
+
+At the user's explicit request, study.run_llms_parallel resumes TinyLlama and SmolLM2 concurrently and then runs study.finalize if both succeed. Start it only after confirming no existing evaluators or supervisors are active. Do not run it alongside study.run_llms. The evaluator, model precision, prompts and checkpoints are unchanged. Shared CPU and memory contention can affect wall-clock timings; previous sequential ETAs do not apply. Model-specific timestamped logs and process IDs are retained in local status.
