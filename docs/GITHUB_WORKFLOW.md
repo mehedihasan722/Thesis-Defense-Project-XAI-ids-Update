@@ -33,3 +33,7 @@ Repository-wide guidance is in [.github/copilot-instructions.md](../.github/copi
 The Agents page displays GitHub-hosted agent sessions. Adding instructions configures repository context; it does not start a session or move the existing local experiments to GitHub. No hosted session was launched as part of this setup. Use a bounded code or documentation issue for any future hosted task; local data-dependent experiment execution remains with the existing runner.
 
 Reference: [GitHub repository custom instructions](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions).
+
+## Main branch protection
+
+The active `Protect main history` ruleset applies to refs/heads/main, with no bypass actors. It blocks branch deletion and non-fast-forward pushes. Normal fast-forward result publishing remains permitted. No required-PR or required-status-check rule was introduced. The configured snapshot is in [main-branch-rules.json](main-branch-rules.json); the GitHub effective-branch-rules API verified both protections. No destructive push or deletion was attempted during verification.
