@@ -16,3 +16,12 @@ The CI workflow does not train models, download datasets or request API credenti
 Action updates are proposed for review, not automatically merged. Scientific dependency versions remain pinned; deliberate environment changes require protocol review.
 
 References: [GitHub workflow syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax), [issue forms](https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/syntax-for-issue-forms).
+
+## Task completion updates
+
+Track concrete problems and remaining work in GitHub Issues. After a task is verified, update its checklist and add the evidence or commit link; close only when every acceptance criterion is satisfied. Record partial progress without declaring completion.
+
+- [Fix completed LLM summary failure with list-valued metrics](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/issues/3) — closed at creation.
+- [Complete TinyLlama and SmolLM2 classification and explanation runs](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/issues/4) — open at creation.
+- [Finish LLM masking validation, matched analysis and final figures](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/issues/5) — open at creation.
+- [Investigate interrupted experiment processes and stale running status](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/issues/6) — open at creation.
