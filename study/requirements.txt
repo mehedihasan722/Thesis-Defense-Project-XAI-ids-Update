@@ -5,7 +5,7 @@ scikit-learn==1.4.2
 pyarrow==16.1.0
 matplotlib==3.8.4
 xgboost==2.0.3
-transformers==4.57.1
+transformers==5.17.0
 safetensors>=0.4.3
 requests>=2.32
 lime==0.2.0.1
