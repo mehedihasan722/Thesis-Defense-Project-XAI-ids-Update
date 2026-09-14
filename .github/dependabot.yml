@@ -7,3 +7,10 @@ updates:
     open-pull-requests-limit: 3
     commit-message:
       prefix: '⬆️'
+  - package-ecosystem: pip
+    directory: /study
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: '⬆️'
