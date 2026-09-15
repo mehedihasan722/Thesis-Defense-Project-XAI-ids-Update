@@ -1,0 +1,16 @@
+{
+  "model": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+  "revision": "31b70e2e869a7173562077fd711b654946d38674",
+  "signature": "a321e3ac13223e8ee03a25c7df0e3e61124a905b99c4ac77bb8d81ea717f6f04",
+  "dtype": "float32",
+  "quantization": null,
+  "cases_per_target": 100,
+  "classification": "normalized full 0/1 candidate likelihoods; common prefix cancels; not calibrated probability",
+  "label_prefix_tokens": [],
+  "label_suffix_tokens": [
+    32,
+    33
+  ],
+  "compatible_prior_signature": "a321e3ac13223e8ee03a25c7df0e3e61124a905b99c4ac77bb8d81ea717f6f04",
+  "status": "complete"
+}

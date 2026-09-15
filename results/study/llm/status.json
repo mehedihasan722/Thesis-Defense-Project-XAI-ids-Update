@@ -1,0 +1,21 @@
+{
+  "Qwen/Qwen2.5-0.5B-Instruct": {
+    "status": "complete",
+    "started": "2026-09-13T17:48:36.246431+00:00",
+    "verified_at": "2026-09-13T21:52:37.802673+00:00",
+    "cases": 400
+  },
+  "TinyLlama/TinyLlama-1.1B-Chat-v1.0": {
+    "status": "complete",
+    "verified_at": "2026-09-14T20:25:01.367677+00:00"
+  },
+  "HuggingFaceTB/SmolLM2-1.7B-Instruct": {
+    "status": "complete",
+    "started": "2026-09-14T20:25:01.381346+00:00",
+    "pid": 11980,
+    "execution": "concurrent_user_requested",
+    "log": "results\\study\\logs\\parallel_HuggingFaceTB--SmolLM2-1.7B-Instruct_20260915-022501.log",
+    "returncode": 0,
+    "ended": "2026-09-15T02:08:03.225280+00:00"
+  }
+}

@@ -1,4 +1,12 @@
 model,source,target,kind,n,valid_json_with_allowed_features,evidence_feature_grounded
+HuggingFaceTB/SmolLM2-1.7B-Instruct,unsw,unsw,own,20,0,
+HuggingFaceTB/SmolLM2-1.7B-Instruct,unsw,unsw,detector,20,2,2.0
+HuggingFaceTB/SmolLM2-1.7B-Instruct,unsw,ids2018,own,20,0,
+HuggingFaceTB/SmolLM2-1.7B-Instruct,unsw,ids2018,detector,20,1,1.0
+HuggingFaceTB/SmolLM2-1.7B-Instruct,ids2018,unsw,own,20,0,
+HuggingFaceTB/SmolLM2-1.7B-Instruct,ids2018,unsw,detector,20,2,2.0
+HuggingFaceTB/SmolLM2-1.7B-Instruct,ids2018,ids2018,own,20,0,
+HuggingFaceTB/SmolLM2-1.7B-Instruct,ids2018,ids2018,detector,20,0,0.0
 Qwen/Qwen2.5-0.5B-Instruct,unsw,unsw,own,20,0,
 Qwen/Qwen2.5-0.5B-Instruct,unsw,unsw,detector,20,13,10.0
 Qwen/Qwen2.5-0.5B-Instruct,unsw,ids2018,own,20,0,
@@ -7,3 +15,11 @@ Qwen/Qwen2.5-0.5B-Instruct,ids2018,unsw,own,20,13,
 Qwen/Qwen2.5-0.5B-Instruct,ids2018,unsw,detector,20,16,8.0
 Qwen/Qwen2.5-0.5B-Instruct,ids2018,ids2018,own,20,13,
 Qwen/Qwen2.5-0.5B-Instruct,ids2018,ids2018,detector,20,12,12.0
+TinyLlama/TinyLlama-1.1B-Chat-v1.0,unsw,unsw,own,20,0,
+TinyLlama/TinyLlama-1.1B-Chat-v1.0,unsw,unsw,detector,20,0,0.0
+TinyLlama/TinyLlama-1.1B-Chat-v1.0,unsw,ids2018,own,20,0,
+TinyLlama/TinyLlama-1.1B-Chat-v1.0,unsw,ids2018,detector,20,0,0.0
+TinyLlama/TinyLlama-1.1B-Chat-v1.0,ids2018,unsw,own,20,0,
+TinyLlama/TinyLlama-1.1B-Chat-v1.0,ids2018,unsw,detector,20,0,0.0
+TinyLlama/TinyLlama-1.1B-Chat-v1.0,ids2018,ids2018,own,20,0,
+TinyLlama/TinyLlama-1.1B-Chat-v1.0,ids2018,ids2018,detector,20,0,0.0

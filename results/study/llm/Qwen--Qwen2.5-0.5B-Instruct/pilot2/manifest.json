@@ -1,0 +1,10 @@
+{
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "revision": "7ae557604adf67be50417f59c2c2f167def9a775",
+  "signature": "4f0305d1f84be55c37cea00e6b6dadd0b8f420139a60c5f0ef00565be7975ed9",
+  "dtype": "float32",
+  "quantization": null,
+  "cases_per_target": 2,
+  "classification": "normalized conditional scores for single-token 0/1; not calibrated probability",
+  "status": "complete"
+}

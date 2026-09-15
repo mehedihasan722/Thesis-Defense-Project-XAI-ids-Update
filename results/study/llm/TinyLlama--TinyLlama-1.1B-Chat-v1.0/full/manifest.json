@@ -1,0 +1,18 @@
+{
+  "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "revision": "fe8a4ea1ffedaf415f4da2f062534de366a451e6",
+  "signature": "0dddf72447bbe70a0f6ecdba8f7828732c9906922d75dcf2edccca0cdd341233",
+  "dtype": "float32",
+  "quantization": null,
+  "cases_per_target": 100,
+  "classification": "normalized full 0/1 candidate likelihoods; common prefix cancels; not calibrated probability",
+  "label_prefix_tokens": [
+    29871
+  ],
+  "label_suffix_tokens": [
+    29900,
+    29896
+  ],
+  "compatible_prior_signature": "0dddf72447bbe70a0f6ecdba8f7828732c9906922d75dcf2edccca0cdd341233",
+  "status": "complete"
+}
