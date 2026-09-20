@@ -15,7 +15,7 @@ LLM intrusion detection and explanation are not new contributions by themselves.
 | Detection generalization | Frozen binary models in both dataset directions; three completed training seeds | Complete matrix; capped training samples |
 | Explanation transfer (RQ3) | Seed-42 LIME, 20 balanced unique feature groups/domain, three explainer seeds, random masking controls, full rankings saved | Pilot cohort; no causal or analyst validation; all 14 model pilots completed |
 | Historical inverse association | Aggregate reconstruction and original-probability replay for 483 cases/model | Original masked rankings absent; cannot exactly reconstruct old masks |
-| LLM classification and explanation | Local immutable model snapshots and auditable runner under validation | No completed LLM comparison yet; small models are not representative of all LLMs |
+| LLM classification and explanation | Three completed 400-case runs, 80 paired explanations per model, matched comparisons and coverage-aware masking | Constant-class predictions under this protocol; small models and limited valid explanation coverage bound conclusions |
 
 ## Future work and feasible extensions
 
@@ -31,5 +31,6 @@ LLM intrusion detection and explanation are not new contributions by themselves.
 ## Reporting workflow
 
 Keep measured results in results/study/RESULTS.md and per-experiment ANALYSIS.md files. Only completed outputs enter comparison tables. Preserve historical results separately, retain seeds and source hashes, and publish gitmoji commits with validation details. Revise the thesis report only after the expanded study is complete, as requested by the user.
+
 
 

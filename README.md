@@ -6,7 +6,7 @@ Development repository: https://github.com/mehedihasan722/Thesis-Defense-Project
 
 ## New study requested on 13 September 2026
 
-The new study starts from raw NF-UNSW-NB15-v2 and NF-CSE-CIC-IDS2018-v2 releases. It compares classical models, shallow MLP, deep MLP, a feature-axis CNN, and three local instruction LLMs. LLMs will be tested for both classification and explanations. Binary transfer is evaluated in both dataset directions; native multiclass results are evaluated separately.
+The new study starts from raw NF-UNSW-NB15-v2 and NF-CSE-CIC-IDS2018-v2 releases. It compares classical models, shallow MLP, deep MLP, a feature-axis CNN, and three local instruction LLMs. LLMs were tested for both classification and explanations. Binary transfer is evaluated in both dataset directions; native multiclass results are evaluated separately.
 
 The downloaded cleaned releases contain **1,986,745 UNSW flows** and **17,129,715 IDS2018 flows**. Both supply the same 39 retained predictive features after removing ports and targets. Dataset counts are measured from these files, not copied from the original-release website.
 
@@ -22,7 +22,7 @@ The downloaded cleaned releases contain **1,986,745 UNSW flows** and **17,129,71
 - Three seeded, globally consistent feature-group splits prepared. Within-dataset and cross-dataset exact-feature overlap checks pass.
 - Separate CPU PyTorch/Transformers environment installed.
 - Fifteen study tests pass, covering splits, sampling, inference, metrics, masking, uncertainty and LLM tokenizer handling.
-- All 84 detector configurations and 126 evaluation cells are complete and independently validated. LLM evaluation remains in progress; the thesis report is unchanged.
+- All 84 detector configurations and 126 evaluation cells are complete and independently validated. All 1,200 LLM cases, final masking checks, 13 figures and 25 regression tests are complete; the thesis report is unchanged. See [LLM interpretation](results/study/llm/INTERPRETATION.md) for constant-class predictions and coverage limits.
 
 For CPU feasibility, per dataset/seed caps are 200,000 training, 40,000 validation and 80,000 test flows, sampled uniformly after group assignment. These are bounded samples from the full releases. Rare-class support and sampling limitations must accompany results. The CNN's feature axis is not a temporal sequence.
 
@@ -53,3 +53,4 @@ The PDF renderer follows the supplied IIUC reference: A4, Times New Roman, front
 Older work is preserved in `results/final/`, the original scripts and `thesis/history/`. It includes a finding that 88.97% of original random-split test flows share retained features with training, which motivated the new globally group-disjoint design. Historical results must not be mixed into the restarted study's comparison tables.
 
 Sources: [NetFlow dataset creators](https://staff.itee.uq.edu.au/marius/NIDS_datasets/), [cleaned IDS2018 release](https://www.kaggle.com/datasets/dhoogla/nfcsecicids2018v2), [Qwen](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct), [TinyLlama](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0), [SmolLM2](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct).
+
