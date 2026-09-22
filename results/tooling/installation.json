@@ -1,0 +1,33 @@
+{
+  "installed_date": "2026-09-22",
+  "ponytail": {
+    "repo": "DietrichGebert/ponytail",
+    "sha": "e3ba2aa6f1e6f0bc4d69eb09c9f0d0a93af56156",
+    "branch": "main",
+    "installed_skill_sha256": "1316a2f3f95741d2300b116fe0c2d81ce4a9568656ed0a62643f54aaf09957f2"
+  },
+  "graphifyy": {
+    "repo": "EaZtoday/graphifyy",
+    "sha": "215b5d40e78e498100cbf8855224331c40f757d9",
+    "branch": "v4",
+    "installed_skill_sha256": "f829f3076fdb98683bffbed11e2c2ed172bd6a123407f032a38b223fc4a7b4a4"
+  },
+  "rtk": {
+    "version": "v0.49.0",
+    "url": "https://github.com/rtk-ai/rtk/releases/download/v0.49.0/rtk-x86_64-pc-windows-msvc.zip",
+    "archive_sha256": "cb971046598f0e8bd51f6c27780fcdd2c39a4c459a811bd95b0d77ba8c0d7c9f",
+    "binary_sha256": "90905cbcb1f1fcd167452518386e1312950bb8c9814c5e2400d3e027f68a7d61"
+  },
+  "checks": {
+    "graphify_python_extraction": {
+      "file": "study/models.py",
+      "nodes": 11,
+      "edges": 20
+    },
+    "rtk_version": "0.49.0",
+    "rtk_git_status": "passed",
+    "graphify_codex_skill": "installed",
+    "ponytail_skill": "installed"
+  },
+  "scope": "User-level tooling; no experiment runtime changes; no full graph generated"
+}
