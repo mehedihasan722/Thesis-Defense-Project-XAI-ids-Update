@@ -44,7 +44,7 @@ def main():
     for name,file in [('TNR','times.ttf'),('TNR-Bold','timesbd.ttf'),('TNR-Italic','timesi.ttf'),('TNR-BoldItalic','timesbi.ttf')]:
         pdfmetrics.registerFont(TTFont(name,str(Path('C:/Windows/Fonts')/file)))
     pdfmetrics.registerFontFamily('TNR',normal='TNR',bold='TNR-Bold',italic='TNR-Italic',boldItalic='TNR-BoldItalic')
-    body=ParagraphStyle('Body',fontName='TNR',fontSize=12,leading=20.7,alignment=TA_JUSTIFY,spaceAfter=10)
+    body=ParagraphStyle('Body',fontName='TNR',fontSize=12,leading=20.7,alignment=TA_JUSTIFY,spaceAfter=10,allowWidows=0,allowOrphans=0)
     center=ParagraphStyle('Center',parent=body,alignment=TA_CENTER)
     heading=ParagraphStyle('Heading',parent=center,fontName='TNR-Bold',fontSize=14,leading=20.7,spaceAfter=26,keepWithNext=True)
     sub=ParagraphStyle('Sub',parent=body,fontName='TNR-Bold',spaceBefore=12,spaceAfter=9,keepWithNext=True)
@@ -59,7 +59,7 @@ def main():
         if widths is None:
             widths=[WIDTH/n]*n
             if n==2: widths=[WIDTH*.36,WIDTH*.64]
-            if n==3: widths=[WIDTH*.28,WIDTH*.48,WIDTH*.24]
+            if n==3: widths=[WIDTH*.34,WIDTH*.33,WIDTH*.33]
         data=[[p(('**'+c+'**') if i==0 else c,cell) for c in row] for i,row in enumerate(rows)]
         t=Table(data,colWidths=widths,repeatRows=1,hAlign='LEFT')
         t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#eeeeee')),('GRID',(0,0),(-1,-1),.5,colors.black),('VALIGN',(0,0),(-1,-1),'TOP'),('LEFTPADDING',(0,0),(-1,-1),5),('RIGHTPADDING',(0,0),(-1,-1),5),('TOPPADDING',(0,0),(-1,-1),6),('BOTTOMPADDING',(0,0),(-1,-1),6)]))
@@ -99,7 +99,7 @@ def main():
     story += [table([['No.','Author','Student ID','Signature'],['1','Mehedi Hasan','C213061',''],['2','Sazzadul Islam','C213066R','']],[30,150,85,WIDTH-265]),Spacer(1,24),table([['Name of supervisor','Signature'],['Md. Mahiuddin, Associate Professor, Department of CSE, IIUC','']],[WIDTH*.72,WIDTH*.28]),Spacer(1,24),p('Archive / publication permission: ____________________'),p('Date: ____________________')]
     front('ACKNOWLEDGEMENT',[
         'Praise be to Almighty Allah. We thank our supervisor, Mr. Md. Mahiuddin, and the Department of Computer Science and Engineering at International Islamic University Chittagong.',
-        'We acknowledge the creators of UNSW-NB15 and the standardised NetFlow dataset, and the maintainers of scikit-learn, LIME, SHAP and XGBoost for the resources used in this study.',
+        'We acknowledge the creators and maintainers of UNSW-NB15, CSE-CIC-IDS2018 and their standardised NetFlow releases, and the open-source machine-learning and language-model resources used in this study.',
         'We thank our families for their support throughout our studies.'])
     lines=SOURCE.read_text(encoding='utf-8').splitlines()
     start=next(i for i,x in enumerate(lines) if x.lower()=='# abstract')
@@ -117,7 +117,7 @@ def main():
                     listing.levelStyles=[ParagraphStyle('TOC0',fontName='TNR',fontSize=12,leading=18,spaceBefore=4),ParagraphStyle('TOC1',fontName='TNR',fontSize=11,leading=16,leftIndent=14,spaceBefore=2),ParagraphStyle('TOC2',fontName='TNR',fontSize=10.5,leading=15,leftIndent=28,spaceBefore=1)]
                     story.append(listing)
                 front('LIST OF ABBREVIATIONS',[])
-                story.append(table([['Abbreviation','Meaning'],['AI','Artificial intelligence'],['IDS','Intrusion detection system'],['XAI','Explainable artificial intelligence'],['LIME','Local interpretable model-agnostic explanations'],['SHAP','SHapley Additive exPlanations'],['DT','Decision tree'],['RF','Random forest'],['XGB','Extreme gradient boosting'],['FAR','False alarm rate'],['RQ','Research question'],['TOPSIS','Technique for order preference by similarity to ideal solution']]))
+                story.append(table([['Abbreviation','Meaning'],['AI','Artificial intelligence'],['IDS','Intrusion detection system'],['XAI','Explainable artificial intelligence'],['LIME','Local interpretable model-agnostic explanations'],['SHAP','SHapley Additive exPlanations'],['DT','Decision tree'],['RF','Random forest'],['XGB','Extreme gradient boosting'],['FAR','False alarm rate'],['RQ','Research question'],['MLP','Multilayer perceptron'],['CNN','Convolutional neural network'],['LLM','Large language model'],['BA','Balanced accuracy'],['ECE','Expected calibration error'],['KS','Kolmogorov-Smirnov'],['SD','Sample standard deviation']]))
                 inserted=True
             story.append(PageBreak())
             obj=p(text.upper(),heading,'TOCEntry')
@@ -148,7 +148,7 @@ def main():
             while i+1<len(lines) and lines[i+1].strip() and not lines[i+1].startswith(('#','|','![')):
                 i+=1;parts.append(lines[i].strip())
             text=' '.join(parts)
-            iscap=bool(re.match(r'Table [\dB]',text))
+            iscap=bool(re.match(r'Table [\dAB]',text))
             obj=p(text,caption if iscap else body,'TableEntry' if iscap else None)
             if iscap:obj.keepWithNext=True
             story.append(obj)

@@ -1,0 +1,29 @@
+{
+  "date": "2026-09-22",
+  "pdf_sha256": "8d8567c49794456c0851d0780c373659a48e0ca5b700b73ebb542082c371b904",
+  "pages": 50,
+  "tables": 20,
+  "figures": 9,
+  "input_hashes_verified": 37,
+  "tests": {
+    "study": 15,
+    "historical_protocol": 10,
+    "status": "passed"
+  },
+  "repository_checks": {
+    "local_figure_links": 37,
+    "immutable_model_pins": 3,
+    "status": "passed"
+  },
+  "visual_review": {
+    "all_pages": "50 pages rendered with Poppler at 90 dpi and inspected in contact sheets",
+    "full_page_detail": [
+      18,
+      32,
+      35
+    ],
+    "reference_cover": "Inspected alongside revised layout",
+    "findings": "No observed clipping, overlapping table text, missing glyphs or unresolved placeholders; abstract and bibliography spillovers corrected; scientific figures resized for print."
+  },
+  "scope": "Revised manuscript for author/supervisor review; signatures and certification unfilled. No experiments rerun."
+}

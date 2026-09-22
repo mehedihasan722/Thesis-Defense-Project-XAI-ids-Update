@@ -25,5 +25,6 @@ with pdfplumber.open(path) as pdf:
     fonts=sorted({c['fontname'] for page in pdf.pages for c in page.chars})
     assert any('TimesNewRoman' in f for f in fonts),fonts
     report={'pdf':str(path.relative_to(ROOT)),'sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'pages':len(pdf.pages),'page_size_points':[594.96,842.04],'chapter_physical_pages':chapter_pages,'fonts':fonts,'checks':'A4 size, required front matter, five chapter starts, Arabic body numbering, page bounds, no unresolved placeholders','visual_review':'Required separately on rendered pages'}
-(ROOT/'results/final/pdf_structure_check.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
+(ROOT/'results/study/report').mkdir(parents=True,exist_ok=True)
+(ROOT/'results/study/report/pdf_structure_check.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
 print(json.dumps(report,indent=2))

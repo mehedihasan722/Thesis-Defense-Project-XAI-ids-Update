@@ -1,0 +1,22 @@
+{
+  "pdf": "output\\pdf\\thesis_xai_ids.pdf",
+  "sha256": "8d8567c49794456c0851d0780c373659a48e0ca5b700b73ebb542082c371b904",
+  "pages": 50,
+  "page_size_points": [
+    594.96,
+    842.04
+  ],
+  "chapter_physical_pages": {
+    "I": 12,
+    "II": 15,
+    "III": 18,
+    "IV": 25,
+    "V": 42
+  },
+  "fonts": [
+    "AAAAAA+TimesNewRomanPS-BoldMT",
+    "AAAAAA+TimesNewRomanPSMT"
+  ],
+  "checks": "A4 size, required front matter, five chapter starts, Arabic body numbering, page bounds, no unresolved placeholders",
+  "visual_review": "Required separately on rendered pages"
+}

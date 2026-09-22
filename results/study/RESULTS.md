@@ -1,6 +1,6 @@
 # Expanded study: measured results
 
-Complete detector matrix: 126 completed evaluation cells. Planned classical/neural matrix: 84 fitted configurations, 126 evaluation cells. LLM and RQ3 results are reported separately. No thesis report is generated.
+Complete detector matrix: 126 completed evaluation cells. Planned classical/neural matrix: 84 fitted configurations, 126 evaluation cells. LLM and RQ3 results are reported separately. The completed evidence is incorporated in the [revised thesis](../../docs/THESIS_REVISION.md).
 
 Training uses capped samples after global encoded-feature group partitioning. Source-only preprocessing; frozen binary models are evaluated within and across datasets. Multiclass taxonomies remain dataset-specific. One seed is not a final multi-seed estimate.
 
@@ -141,7 +141,7 @@ Cross-dataset degradation measures the combined effect of domain differences und
 
 Run `.venv-study/Scripts/python.exe -m study.run_training`, then `.venv-study/Scripts/python.exe -m study.summarize`. Only folders with complete.json contribute. Partial model outputs are excluded.
 
-[Across-seed analysis](ACROSS_SEEDS.md) · [RQ3 analysis](xai/ANALYSIS.md) · [Calibration](calibration/ANALYSIS.md) · [Imbalance](imbalance/ANALYSIS.md) · [Figure index](figures/FIGURES.md)
+[Across-seed analysis](ACROSS_SEEDS.md) Â· [RQ3 analysis](xai/ANALYSIS.md) Â· [Calibration](calibration/ANALYSIS.md) Â· [Imbalance](imbalance/ANALYSIS.md) Â· [Figure index](figures/FIGURES.md)
 
 <!-- generated-figures -->
 ## Figures and diagrams

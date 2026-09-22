@@ -1,5 +1,12 @@
 # Change log
 
+## 2026-09-22 - Completed thesis manuscript revision
+
+- Publish the revised 50-page IIUC-format PDF and editable five-chapter manuscript from the completed expanded study.
+- Generate 20 tables from saved evidence and nine print-sized figures. Retain LLM failures, explanation coverage, RQ3 transfer limits and the historical metric audit.
+- Add report source hashes, reproducible builders, structural PDF checks and visual review record. All 25 regression tests and 37 figure-link checks pass.
+- Preserve historical templates, raw evidence and experiment environments. Author signatures and supervisor review remain outstanding human steps.
+
 ## 2026-09-13 - Restarted comparative study
 
 - Begin a separate study from raw NF-UNSW-NB15-v2 and NF-CSE-CIC-IDS2018-v2 data. Preserve the original study as historical evidence.

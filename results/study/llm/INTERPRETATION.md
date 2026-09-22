@@ -16,4 +16,4 @@ Read [valid-output coverage](masking_coverage.csv) alongside [masking analysis](
 
 Predefine a separate follow-up comparing label verbalizations, label-order permutations, input representations and prompt formats. Include constant-class baselines and independent development data. Keep this completed benchmark frozen; do not tune against its test outcomes and present the revised score as the original result. Larger models and fine-tuning require separate compute and evaluation designs.
 
-The current deliverable is the completed, reproducible comparison, including negative findings. The thesis manuscript revision remains a separate task.
+The current deliverable is the completed, reproducible comparison, including negative findings. These findings are incorporated in the revised thesis; see ../../../docs/THESIS_REVISION.md.

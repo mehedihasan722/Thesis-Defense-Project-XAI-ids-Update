@@ -14,7 +14,7 @@ The downloaded cleaned releases contain **1,986,745 UNSW flows** and **17,129,71
 
 [![Protocol CI](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/actions/workflows/protocol-ci.yml/badge.svg)](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/actions/workflows/protocol-ci.yml)
 
-[Project Wiki](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/wiki) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [GitHub workflow](docs/GITHUB_WORKFLOW.md)
+[Project Wiki](https://github.com/mehedihasan722/Thesis-Defense-Project-XAI-ids-Update/wiki) Â· [Contributing](CONTRIBUTING.md) Â· [Security](SECURITY.md) Â· [GitHub workflow](docs/GITHUB_WORKFLOW.md)
 
 ## Current status
 
@@ -22,7 +22,7 @@ The downloaded cleaned releases contain **1,986,745 UNSW flows** and **17,129,71
 - Three seeded, globally consistent feature-group splits prepared. Within-dataset and cross-dataset exact-feature overlap checks pass.
 - Separate CPU PyTorch/Transformers environment installed.
 - Fifteen study tests pass, covering splits, sampling, inference, metrics, masking, uncertainty and LLM tokenizer handling.
-- All 84 detector configurations and 126 evaluation cells are complete and independently validated. All 1,200 LLM cases, final masking checks, 13 figures and 25 regression tests are complete; the thesis report is unchanged. See [LLM interpretation](results/study/llm/INTERPRETATION.md) for constant-class predictions and coverage limits.
+- All 84 detector configurations and 126 evaluation cells are complete and independently validated. All 1,200 LLM cases, final masking checks, 13 figures and 25 regression tests are complete; the revised thesis is available in [PDF](output/pdf/thesis_xai_ids.pdf) and [editable Markdown](thesis/manuscript.md). See [LLM interpretation](results/study/llm/INTERPRETATION.md) for constant-class predictions and coverage limits.
 
 For CPU feasibility, per dataset/seed caps are 200,000 training, 40,000 validation and 80,000 test flows, sampled uniformly after group assignment. These are bounded samples from the full releases. Rare-class support and sampling limitations must accompany results. The CNN's feature axis is not a temporal sequence.
 
@@ -48,7 +48,7 @@ Raw datasets, downloaded LLM weights, fitted checkpoints, large prediction files
 
 ## Thesis and historical evidence
 
-The PDF renderer follows the supplied IIUC reference: A4, Times New Roman, front matter, five chapters, references, appendices and Roman/Arabic page numbering. The expanded manuscript will be populated after the new experiments are validated. Author signatures and supervisor approval remain for the appropriate people to complete.
+The PDF renderer follows the supplied IIUC reference: A4, Times New Roman, front matter, five chapters, references, appendices and Roman/Arabic page numbering. The expanded manuscript now incorporates the completed results, RQ3, the historical audit, LLM failures and future work. See [revision notes and build instructions](docs/THESIS_REVISION.md). Author signatures and supervisor approval remain for the appropriate people to complete.
 
 Older work is preserved in `results/final/`, the original scripts and `thesis/history/`. It includes a finding that 88.97% of original random-split test flows share retained features with training, which motivated the new globally group-disjoint design. Historical results must not be mixed into the restarted study's comparison tables.
 
