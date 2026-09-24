@@ -1,0 +1,66 @@
+import { chromium, expect } from '@playwright/test';
+import assert from 'node:assert/strict';
+import { fileURLToPath } from 'node:url';
+import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
+const BASE=process.env.SITE_URL||'http://127.0.0.1:4173';
+const folder=new URL('../../tmp/website-review/',import.meta.url);mkdirSync(folder,{recursive:true});
+const data=JSON.parse(readFileSync(new URL('../src/data/study.json',import.meta.url)));
+const browser=await chromium.launch({channel:process.env.BROWSER_CHANNEL||'msedge',headless:true,args:['--enable-webgl','--enable-unsafe-swiftshader']});
+const checks=[];const errors=[];
+function ok(name){checks.push(name);console.log('PASS',name)}
+try{
+ const page=await browser.newPage({viewport:{width:1440,height:1000}});
+ page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});
+ await page.goto(BASE,{waitUntil:'networkidle'});
+ await page.locator('iframe').waitFor();
+ const frame=await page.locator('iframe').contentFrame();
+ await frame.locator('#scene').waitFor();
+ const actualFrame=page.frames().find(f=>f!==page.mainFrame());
+ await actualFrame.waitForFunction(()=>window.__ready===true,{timeout:30000});
+ assert.equal(await actualFrame.evaluate(()=>window.THREE.REVISION),'149');ok('Exact scene renders with Three.js r149');
+ await page.mouse.move(1170,430);await page.waitForTimeout(400);
+ const px=await actualFrame.locator('#hero').evaluate(e=>e.style.getPropertyValue('--px'));
+ assert.ok(Number(px)>0);ok('Authored pointer interaction responds');
+ await page.screenshot({path:fileURLToPath(new URL('desktop-hero.jpg',folder)),type:'jpeg',quality:85});
+ await page.getByRole('button',{name:'Pause scene'}).click();assert.equal(await page.locator('iframe').count(),0);
+ await page.getByRole('button',{name:'Play scene'}).click();await page.locator('iframe').waitFor();ok('Pause/play unmounts and restores scene');
+ await page.getByRole('link',{name:'Explore data',exact:true}).click();
+ const rf=page.getByRole('button',{name:/^Random forest: Macro-F1/});await rf.hover();
+ const row=data.detection.find(r=>r.task==='binary'&&r.source==='unsw'&&r.target==='unsw'&&r.model==='RandomForest');
+ assert.equal(await page.locator('.big-value').innerText(),row.macro_f1_mean.toFixed(4));ok('Hover exposes exact CSV-derived mean');
+ await rf.click();await page.mouse.move(5,5);assert.match(await page.locator('#datum-detail').innerText(),/PINNED VALUE/);ok('Click pins data inspector');
+ await page.getByRole('button',{name:'Unpin value'}).click();await rf.focus();assert.equal(await page.locator('.big-value').innerText(),row.macro_f1_mean.toFixed(4));ok('Keyboard focus reveals exact value');
+ await page.getByRole('button',{name:'View data table'}).click();assert.equal(await page.locator('.data-table-wrap tbody tr').count(),7);ok('Accessible data table has seven models');
+ const waitDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Download CSV'}).click();const dl=await waitDownload;const file=await dl.path();assert.match(readFileSync(file,'utf8'),new RegExp(String(row.macro_f1_mean).replaceAll('.','\\.')));ok('CSV download retains unrounded source values');
+ await page.getByRole('button',{name:'Hide data table'}).click();
+ await page.getByRole('tab',{name:'Explanation quality'}).click();await page.getByLabel('Explanation metric').selectOption('advantage_mean');
+ await page.getByRole('button',{name:/^Random forest: LIME/}).hover();assert.equal(await page.locator('.big-value').innerText(),'-0.1338');assert.match(await page.locator('#datum-detail').innerText(),/95% conditional CI/);ok('Negative transfer advantage and conditional CI shown correctly');
+ await page.locator('#explore').scrollIntoViewIfNeeded();await page.waitForTimeout(1200);await page.screenshot({path:fileURLToPath(new URL('desktop-explorer.jpg',folder)),type:'jpeg',quality:85});
+ await page.getByRole('tab',{name:'Language models'}).click();await page.getByRole('button',{name:/^Qwen 2.5:/}).hover();assert.match(await page.locator('#datum-detail').innerText(),/72.50%/);ok('LLM coverage is 58/80, not classification accuracy');
+ await page.getByRole('tab',{name:'Historical audit'}).click();await page.getByRole('slider',{name:'Historical case',exact:true}).focus();await page.keyboard.press('Home');for(let i=0;i<10;i++)await page.keyboard.press('ArrowRight');assert.match(await page.locator('#datum-detail').innerText(),/Case 11/);ok('Scatter has keyboard-accessible case inspection');
+ await page.getByLabel('Collection',{exact:true}).selectOption('Expanded study');
+ while(await page.getByRole('button',{name:/Show more figures/}).count())await page.getByRole('button',{name:/Show more figures/}).click();
+ assert.equal(await page.locator('.figure-card').count(),23);
+ await page.emulateMedia({reducedMotion:'reduce'});
+ for(const f of data.figures.filter(f=>f.protocol==='Expanded study')){
+  const card=page.locator('.figure-card').filter({has:page.locator('.figure-meta span').filter({hasText:new RegExp('^FIG\\. '+f.number.replace('.','\\.')+'$')})});
+  await card.getByRole('button',{name:'Explore values'}).click();
+  await expect(page.locator('.plot-top .eyebrow')).toContainText('FIGURE '+f.number);
+ }
+ await page.emulateMedia({reducedMotion:'no-preference'});
+ ok('All 23 added figure links select their corresponding interactive chart');
+ await page.getByLabel('Search figures').fill('nonexistent-figure');assert.equal(await page.locator('.figure-card').count(),0);await page.getByRole('button',{name:'Reset filters'}).click();ok('Figure search and empty-state reset');
+ await page.getByRole('button',{name:'Enlarge Figure 1.1',exact:true}).click();assert.equal(await page.locator('dialog').evaluate(d=>d.open),true);await page.keyboard.press('Escape');assert.equal(await page.locator('dialog').evaluate(d=>d.open),false);ok('Figure zoom opens and closes with Escape');
+ assert.equal((await page.request.get(BASE+'/thesis.pdf')).status(),200);ok('Full thesis PDF available');
+ const mobile=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+ mobile.on('pageerror',e=>errors.push(e.message));await mobile.goto(BASE,{waitUntil:'networkidle'});await mobile.waitForTimeout(3000);
+ assert.ok(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));ok('Mobile layout has no horizontal overflow');
+ await mobile.screenshot({path:fileURLToPath(new URL('mobile-hero.jpg',folder)),type:'jpeg',quality:85});
+ await mobile.locator('#explore').scrollIntoViewIfNeeded();await mobile.getByRole('button',{name:/^Random forest: Macro-F1/}).tap();assert.match(await mobile.locator('#datum-detail').innerText(),/PINNED VALUE/);ok('Mobile tap reveals and pins chart data');
+ await mobile.screenshot({path:fileURLToPath(new URL('mobile-explorer.jpg',folder)),type:'jpeg',quality:85});
+ await mobile.emulateMedia({reducedMotion:'reduce'});assert.equal(await mobile.locator('.bar').first().evaluate(e=>getComputedStyle(e).animationName),'none');ok('Chart animation respects reduced motion');
+ await page.locator('#research').scrollIntoViewIfNeeded();await page.screenshot({path:fileURLToPath(new URL('research.jpg',folder)),type:'jpeg',quality:85});
+ await page.locator('#figures').scrollIntoViewIfNeeded();await page.screenshot({path:fileURLToPath(new URL('library.jpg',folder)),type:'jpeg',quality:85});
+ assert.deepEqual(errors,[]);ok('No browser page or console errors');
+ writeFileSync(new URL('browser-checks.json',folder),JSON.stringify({url:BASE,checks,errors},null,2));
+}finally{await browser.close()}

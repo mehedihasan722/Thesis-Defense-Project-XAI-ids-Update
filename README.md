@@ -46,6 +46,10 @@ Run from the repository root. The original `.venv` remains separate. Long neural
 
 Raw datasets, downloaded LLM weights, fitted checkpoints, large prediction files, environments and temporary renders are excluded from Git. Reproduce these locally using the scripts. Download sources and checksums are recorded in manifests.
 
+## Interactive thesis website
+
+The [website source and run instructions](website/README.md) provide a responsive research observatory with the exact ThreeUI Living Green scene, animated data charts, hover/focus/tap values, CSV downloads, all 41 figures, and the full thesis PDF. All four registered scene sources retain their supplied SHA-256 hashes. Historical and expanded protocols stay separate. Public website deployment is pending approval; run the production preview locally to review it.
+
 ## Thesis and historical evidence
 
 The current revision starts from the original editable IIUC thesis. It retains all 25 original Word tables, 18 figure captions, 36 references, original media/styles and Appendices A and B; it adds 16 tables, 23 separately captioned figures, six references and Appendix C. The expanded sections incorporate completed results, RQ3, the historical audit, LLM failures and future work. The earlier shortened report is superseded. Original reference [28] remains unconfirmed and needs author review. See [revision notes and build instructions](docs/THESIS_REVISION.md). Author signatures and supervisor approval remain for the appropriate people to complete.

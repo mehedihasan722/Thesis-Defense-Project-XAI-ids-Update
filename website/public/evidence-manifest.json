@@ -1,0 +1,16 @@
+{
+  "inputs": {
+    "results/study/across_seed_summary.csv": "7c1202bfd559fb59a53542c790c4768b9633b6a4de05a1af1cfd97e36fc98723",
+    "results/study/xai/aggregate.csv": "10d35a303cbb5b16f004964b919ece5f4a7b95672260f40a21b974d5c3c4ef13",
+    "results/study/llm/masking_coverage.csv": "b69ecbc91f88ad311082f79c218b330370efff9349a9c5f235a1d1d3de3de007",
+    "results/study/audit/DecisionTree_matched.csv": "5434f10d0931154d7fd7d7268e383ad6ee446db38cf141d41d6add3c115a2404",
+    "results/study/audit/RandomForest_matched.csv": "ffad48ac53e924a31d3fe8f1bee2bd487b3a4ad50740ea148d9a26164e98e5c4",
+    "results/study/audit/XGBoost_matched.csv": "ebfef62e7301c7e3d5aa1f732623bf3a5f8be80ebe0176849bac1d843c445a46",
+    "results/study/preserved_report/figure_catalog.json": "01612928ab1e341cceb3e9bc6e73de1fc8fc980bc09e07fbddd57e7ab7387e08"
+  },
+  "report": "Original-preserving revision 33c62c0",
+  "experiment_configs": 84,
+  "evaluation_cells": 126,
+  "llm_classifications": 1200,
+  "llm_explanations": 480
+}

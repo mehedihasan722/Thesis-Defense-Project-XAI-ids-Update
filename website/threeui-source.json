@@ -1,0 +1,40 @@
+{
+  "url": "https://threeui.com/source-code/sylva-living-world.json",
+  "revision": "fd922291297d",
+  "variant": "living-green",
+  "runtime": "Three.js r149",
+  "files": [
+    {
+      "path": "src/shaders/sylva-living-world/SylvaLivingWorldScene.tsx",
+      "language": "tsx",
+      "role": "component",
+      "bytes": 79242,
+      "lines": 1605,
+      "sha256": "e29b92a16596bc9383e1dbd4630e83b70ec2a59dbae48de1d3b7ddc48c0b2082"
+    },
+    {
+      "path": "src/shaders/sylva-living-world/sources/inner-green-3d.html",
+      "language": "html",
+      "role": "canonical-source",
+      "bytes": 197914,
+      "lines": 4304,
+      "sha256": "69c3694bd63f44ef9f007ebe4dac57a83e4402e0cdf6b54dd10b96dd4f05e197"
+    },
+    {
+      "path": "src/shaders/sylva-living-world/sources/inner-green-assets/three.min.js",
+      "language": "javascript",
+      "role": "three-runtime",
+      "bytes": 608081,
+      "lines": 6,
+      "sha256": "8a5f7249903b54d30f79f708699d2fed2d6a1d0741a4cd41377d1f01bb5a2271"
+    },
+    {
+      "path": "src/shaders/threeui.css",
+      "language": "css",
+      "role": "shared-style",
+      "bytes": 40715,
+      "lines": 1775,
+      "sha256": "efe4447139f1358dd8e9be68edf6fa46cbefbd1de423a4d6c439ca61d2c8eccf"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:4174",
+  "checks": [
+    "Exact scene renders with Three.js r149",
+    "Authored pointer interaction responds",
+    "Pause/play unmounts and restores scene",
+    "Hover exposes exact CSV-derived mean",
+    "Click pins data inspector",
+    "Keyboard focus reveals exact value",
+    "Accessible data table has seven models",
+    "CSV download retains unrounded source values",
+    "Negative transfer advantage and conditional CI shown correctly",
+    "LLM coverage is 58/80, not classification accuracy",
+    "Scatter has keyboard-accessible case inspection",
+    "All 23 added figure links select their corresponding interactive chart",
+    "Figure search and empty-state reset",
+    "Figure zoom opens and closes with Escape",
+    "Full thesis PDF available",
+    "Mobile layout has no horizontal overflow",
+    "Mobile tap reveals and pins chart data",
+    "Chart animation respects reduced motion",
+    "No browser page or console errors"
+  ],
+  "errors": [],
+  "browser": "Microsoft Edge / Playwright 1.63.0",
+  "build": "Vite 8.3.0 production preview",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "public_deployment": "Not enabled; awaits explicit approval"
+}

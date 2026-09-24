@@ -14,3 +14,10 @@ The full preservation revision replaces the shortened report as the current draf
 The original DOCX is archived for reproducibility. Seven floating figures were anchored inline beside captions, navigation fields were refreshed, and structural/content/image-boundary checks passed. See [revision notes](docs/THESIS_REVISION.md) and [review record](results/study/preserved_report/REVIEW.md). No model was rerun and no saved experimental result changed.
 
 Before submission: confirm original reference [28], reconcile historical wording with the qualified expanded conclusions, and obtain author/supervisor approval. RQ3 completion applies to the specified binary/LIME protocol, not every future per-class or SHAP experiment.
+
+
+## Interactive website implementation
+
+Added `website/` with an exact-source ThreeUI Living Green scene and verified chart data exported from the frozen CSVs. All 41 figures are preserved in the searchable library; the 23 added figures have interactive controls, data inspection and CSV export. The site supports mobile tap, keyboard focus, a scatter-case slider, pause/play and reduced-motion charts. No model or report was changed.
+
+Public GitHub Pages deployment awaits explicit approval. Automatic approval review rejected creating a persistent public deployment workflow because that destination and side effect had not been explicitly authorized. No deployment workflow was written or enabled. Source and local production preview remain available; see `website/README.md` and the browser verification record.
