@@ -1,38 +1,62 @@
-# Revised thesis: completed study
+# Thesis revision preserving the original report
 
-The user authorized manuscript revision after the expanded experiments completed. The revised report uses the supplied IIUC reference format: A4 dimensions, Times New Roman, institutional cover and front matter, five chapters, references, appendices and Roman/Arabic page numbering. Its length follows the completed evidence rather than copying the old page count.
+Updated 24 September 2026. This revision supersedes the shortened 50-page report as the current author-review draft. It starts from the supplied editable IIUC thesis, keeps its original content and formatting, and inserts completed study extensions in the relevant chapters.
 
-- [Revised PDF](../output/pdf/thesis_xai_ids.pdf)
-- [Editable manuscript](../thesis/manuscript.md)
-- [Narrative template](../thesis/study/report.template.md)
-- [Input hashes](../results/study/report/input_manifest.json)
-- [Structural PDF checks](../results/study/report/pdf_structure_check.json)
+- [Current 109-page PDF](../output/pdf/thesis_xai_ids_preserved.pdf)
+- [Editable Word document](../output/docx/thesis_xai_ids_preserved.docx)
+- [Original editable source](../thesis/reference/original_thesis.docx)
+- [Separate figures and captions](../results/study/preserved_report/README.md)
+- [Preservation and input-hash checks](../results/study/preserved_report/preservation_check.json)
+- [Layout review and remaining editorial work](../results/study/preserved_report/REVIEW.md)
 
-## What changed
+## Preservation and additions
 
-The report incorporates all seven classical/ensemble/neural detector families, both datasets, three training/split seeds, 84 configurations and 126 evaluation cells. RQ3 covers frozen detection transfer and a separately scoped explanation-transfer pilot. Three local LLMs contribute 1,200 classification cases and 480 generated explanations (240 pairs).
+| Content | Original retained | Added | Revised total |
+| --- | ---: | ---: | ---: |
+| Word tables, including front matter | 25 | 16 | 41 |
+| Numbered figure captions | 18 | 23 | 41 |
+| Bibliography entries | 36 | 6 | 42 |
+| Appendices | A and B | C | 3 |
 
-The interpretation preserves the constant-class LLM outcomes and invalid explanation responses. It separates stability from random-adjusted masking sensitivity, explains historical metric directions, and reports the limits of historical replay. It does not claim falsification from an inverse association. Calibration, class imbalance, masking sensitivity, domain shift, research positioning and future work are included.
+All original body paragraphs and table cell text are retained, apart from rebuilt navigation entries. Original media, styles, headers, footers and other unchanged package parts are verified byte for byte. Seven floating pictures were moved inline beside their captions so inserted text cannot push them outside a page. Original empty spacing and existing multi-panel figures remain; each added figure has a separate caption and its own PNG, SVG and vector PDF. Separate figures do not necessarily occupy separate pages.
 
-Nine print-sized scientific figures were generated from existing evidence, with PNG and SVG sources under `results/study/report/figures/`. The report has 20 numbered tables, including methodology, results and appendices. Historical study artifacts and the original manuscript template remain preserved.
+The original institutional front matter, five chapters, references, appendices, margins, Times New Roman styles and Roman/Arabic page numbering are retained. Contents, figure and table lists have 199 refreshed page references. The source DOCX SHA-256 is `7c52c19f5d02137223e261a54d9fe7d6291634f3a89b8efbd3a01301eb07b841`.
 
-## Build
+## Where the expanded evidence appears
 
-From the repository root:
+- Abstract and Section 1.5.1 explain the original and expanded scopes.
+- Section 2.7.1 extends the research gap and positions the LLM comparison.
+- Sections 3.8.1.1-3.8.1.9 specify the two datasets, disjoint feature-group splits, seven detector families, uncertainty, masking and LLM protocols.
+- Sections 4.2.10-4.2.19 report detection, frozen transfer, historical audit, explanation transfer, masking sensitivity, LLM outcomes, calibration, imbalance and validity limits.
+- Figures 4.12-4.34 extend the original visual comparisons using separate plots. Original Figures 4.1-4.11 are unchanged.
+- Section 5.1.1 qualifies the historical conclusions. Section 5.3 explains completed RQ3 work; Section 5.3.4 records remaining future work.
+- Appendix C adds all 28 model/direction explanation summaries. Appendices A and B remain intact.
+
+The completed experiment inventory remains 84 detector configurations and 126 evaluation cells. The three LLMs completed 1,200 classifications and 480 generated explanations. This report revision performs no new training or inference and changes no experimental result.
+
+## Interpretation boundaries
+
+The original random-split results and corrected group-disjoint results are separately labelled and must not be pooled. The historical audit found consistent saved arithmetic, positive descriptive within-model stability/advantage correlations, and substantial original split overlap. It does not establish that every old result was falsified, nor validate unavailable original masked predictions.
+
+RQ1 remains stability, RQ2 faithfulness, RQ3 transferability and RQ4 cross-explainer agreement. The LLM comparison is an additional extension. Completed RQ3 is the specified binary frozen-detection and LIME transfer protocol; it does not imply completion of every per-attack-class rank-drift idea in the original future-work plan. New SHAP/TOPSIS comparisons for all neural models are not claimed.
+
+All three small LLMs produced constant-class predictions under the frozen protocol. Invalid explanations remain in coverage denominators; conditional masking scores do not describe all generated outputs. Bootstrap intervals over 20 explanation cases are not training-seed or deployment uncertainty.
+
+Original wording is retained for provenance, including old future-work statements; inserted scope and completion notes qualify them. This is a preservation-first author-review draft, not a claim that every historical sentence is newly validated. Original reference [28] explicitly lacks confirmed bibliographic details. Exact-title searches on 24 September did not identify a matching source; related papers are not substitutes. Claims relying on [28] need source confirmation before submission. Signatures, dates, supervisor approval, a full bibliography audit and final editorial reconciliation remain human review items.
+
+## Rebuild
+
+Use the existing study Python for figures, and a document Python containing python-docx, lxml, pypdf and pdfplumber for document assembly and verification. The export step requires Microsoft Word on Windows. Document dependencies remain separate from `.venv-study`.
 
 ```powershell
-.venv-study/Scripts/python.exe -m study.report_figures
-python -m study.build_report
-python render_thesis_pdf.py
-python verify_thesis_pdf.py
+.venv-study/Scripts/python.exe -m study.preservation_figures
+& $DocumentPython -m study.preserve_thesis
+./study/export_preserved_thesis.ps1
+& $DocumentPython -m study.verify_preserved_thesis
 ```
 
-The first command uses the existing study environment for pandas, matplotlib and scipy. The remaining commands require ReportLab, Pillow and pdfplumber; rendering uses Windows Times New Roman fonts. In this task the bundled document Python runtime supplied those packages without changing `.venv-study`.
+Set `$DocumentPython` to the document-runtime executable. In this workspace the bundled runtime is `C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe`.
 
-`build_report.py` requires all 42 three-seed groups, all 126 detector cells with 80,000 test rows, all 12 LLM direction cells and the full explanation coverage denominator. It generates tables from saved CSVs, validates figure paths and records hashes. No training or inference is performed by the report build.
+The builder uses the original DOCX, saved CSVs and the verified expanded narrative in `thesis/manuscript.md`. That Markdown and `output/pdf/thesis_xai_ids.pdf` remain historical inputs from the shortened revision; they are not the current full report. The original `study.build_report` / `render_thesis_pdf.py` pipeline produces that older format. Use the preservation pipeline above for this revision.
 
-## Review boundaries
-
-The PDF is a revised research manuscript for author and supervisor review. Signature, date and approval fields remain blank. The cover title and author identities follow the reference PDF. The expanded experimental scope is explained in the introduction. This revision does not provide institutional certification, causal explanation validation, a deployment guarantee or an analyst usefulness study.
-
-The repository's raw experiment analyses remain primary provenance. Earlier status snapshots may describe work as deferred or pending at their historical date; the report and this revision record state the completed evidence and remaining scientific limitations explicitly.
+Word exports the PDF without saving over the preserved package. The verifier caches page fields, checks original content/package preservation, 42 references, all new captions, separate figure formats and image bounds, and writes hashes. Render and visually inspect a rebuilt PDF before publication; page counts can depend on the Word/font environment.
