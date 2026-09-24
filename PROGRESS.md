@@ -21,3 +21,8 @@ Before submission: confirm original reference [28], reconcile historical wording
 Added `website/` with an exact-source ThreeUI Living Green scene and verified chart data exported from the frozen CSVs. All 41 figures are preserved in the searchable library; the 23 added figures have interactive controls, data inspection and CSV export. The site supports mobile tap, keyboard focus, a scatter-case slider, pause/play and reduced-motion charts. No model or report was changed.
 
 Public GitHub Pages deployment awaits explicit approval. Automatic approval review rejected creating a persistent public deployment workflow because that destination and side effect had not been explicitly authorized. No deployment workflow was written or enabled. Source and local production preview remain available; see `website/README.md` and the browser verification record.
+
+
+## Thesis defense presentation
+
+Completed a 28-slide editable defense deck and native PowerPoint PDF export. Includes 11 separate charts, speaker notes, the neural/LLM extension, RQ3 transfer, historical audit, limitations and future work. Sources and slide outline: [docs/THESIS_PRESENTATION.md](docs/THESIS_PRESENTATION.md).

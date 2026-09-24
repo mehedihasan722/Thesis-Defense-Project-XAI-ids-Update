@@ -58,3 +58,8 @@ Older work is preserved in `results/final/`, the original scripts and `thesis/hi
 
 Sources: [NetFlow dataset creators](https://staff.itee.uq.edu.au/marius/NIDS_datasets/), [cleaned IDS2018 release](https://www.kaggle.com/datasets/dhoogla/nfcsecicids2018v2), [Qwen](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct), [TinyLlama](https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0), [SmolLM2](https://huggingface.co/HuggingFaceTB/SmolLM2-1.7B-Instruct).
 
+
+
+### Defense presentation
+
+[PowerPoint](output/presentation/thesis_defense.pptx) · [PDF](output/presentation/thesis_defense.pdf) · [Outline and sources](docs/THESIS_PRESENTATION.md)
