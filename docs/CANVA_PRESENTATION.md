@@ -1,22 +1,32 @@
-# Canva thesis presentation status
+# Canva thesis presentation template
 
-- Verified 28-slide source imported as Canva design `DAHWTrQs1sE`.
-- Generated 32-slide companion: https://canva.link/t3s3txsajsut56k
-- Status: DRAFT, not yet approved for defense.
+Current editable template: https://canva.link/fy7zsemqtpos2r1
 
-## Scientific review
+Design ID: `DAHWWlkL7BA`. Created from the user-supplied 12-slide specification on 2026-09-27. This is an editable design link, not a published Canva brand-template distribution link.
 
-Prepared 13 text corrections across slides 10, 11, 12, 18, 20, 22, 24, 29 and 30. They correct the 84-fit/126-evaluation distinction, separate explainer seeds from training seeds, remove unsupported causal claims, correct historical reconstruction limits, and distinguish LLM validity coverage from conditional masking quality. Canva transaction remains uncommitted pending explicit save approval.
+## Structure
 
-Generated presenter notes include mismatched copied sources and must be reconciled against docs/THESIS_PRESENTATION.md before use. Generated workflow slides are predominantly text, so the requested detailed diagrams are not yet fully delivered. No claim that chart data, notes, or all generated layouts passed final verification.
+1. Title
+2. Introduction
+3. Problem Statement
+4. Research Objectives
+5. Literature Review
+6. Proposed Methodology / System Architecture
+7. Implementation Details
+8. Experimental Setup & Datasets
+9. Results & Analysis
+10. Discussion
+11. Conclusion & Future Work
+12. Q&A / References
 
-## Animation plan (not applied)
+The template uses Mehedi Hasan, C213061, Department of CSE, IIUC. Title, advisor credentials, claims, references and numerical results are bracketed editable placeholders. Design brief specifies navy, slate gray, soft white, clean sans-serif typography and no decorative icons.
 
-The connected Canva editing API does not support animations or transitions. Apply these in the Canva editor:
+## Checked
 
-- Brief fade transitions between slides.
-- Sequential stage reveals for preprocessing, leakage control, model architecture, LIME and transfer workflows.
-- Whole-figure fades for results, with fixed numbers throughout.
-- Avoid spinning text, looping effects, or count-up research values.
+Canva returned exactly 12 pages at 1920 x 1080. Text inspection confirms all sections and bracketed placeholders. Geometry inspection confirms slide 6 process containers and notes end at y=818.6, and slide 9 chart frames/callouts/caption end at y=826.62. Returned content stays above y=918, leaving the requested bottom 15% blank on these slides. Slide 6 includes four native shape containers; slide 9 contains two separate editable chart placeholder groups. No numeric plot data is fabricated. Read-only inspection transaction closed without changes.
 
-The verified PowerPoint/PDF remain unchanged. Do not replace the verified thesis presentation with this generated companion until its content, diagrams and notes have passed review.
+## Earlier companion
+
+The previous 32-slide generated companion `DAHWTqhDswM` is superseded by this template. Its uncommitted scientific corrections were discarded when the user requested this new structure. It still contains known scientific and notes problems and should not be used as an approved defense deck. The verified 28-slide PowerPoint/PDF remains unchanged.
+
+Animations are not configured by this template task. The connected editing API does not expose animation/transition controls.
