@@ -23,3 +23,7 @@ results/study/**/predictions_*.parquet
 
 # Vercel local project association
 .vercel/
+
+# Public, frozen website evidence snapshot (not raw research data)
+!website/src/data/
+!website/src/data/study.json
