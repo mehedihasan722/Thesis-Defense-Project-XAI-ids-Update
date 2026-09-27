@@ -31,3 +31,8 @@ Completed a 28-slide editable defense deck and native PowerPoint PDF export. Inc
 ## Vercel support
 
 Added repository-root Vercel configuration to install/build `website` and publish `website/dist`. Production build and evidence hash verification pass. Import instructions are in website/README.md. Live deployment awaits a Vercel account connection; no public Vercel URL is claimed.
+
+
+## Vercel production live
+
+Published https://thesis-xai-ids.vercel.app on 2026-09-27. Correct GitHub Update repository connected. Repaired a broad data/ ignore rule that omitted the frozen website snapshot. All 19 production browser checks passed, including Three.js r149, hover/keyboard/tap data, CSV, PDF, mobile overflow and reduced motion.

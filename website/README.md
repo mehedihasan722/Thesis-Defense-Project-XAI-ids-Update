@@ -57,6 +57,6 @@ The repository-root `vercel.json` installs and builds the website, then publishe
 
 Importing this public repository into Vercel will publish the website and included thesis documents. Future pushes follow the connected Vercel project's Git deployment settings. This configuration does not enable GitHub Pages.
 
-Status: repository configuration added; no live Vercel URL has been verified because this workspace has no connected Vercel account. The local build checks all four exact ThreeUI sources, the frozen evidence inputs, 41 figure copies, report PDF and fonts before bundling.
+Live production: https://thesis-xai-ids.vercel.app (verified 2026-09-27). Vercel project `thesis-xai-ids` is connected to the `Thesis-Defense-Project-XAI-ids-Update` GitHub repository. All 19 browser checks passed against the public URL. The local build checks all four exact ThreeUI sources, the frozen evidence inputs, 41 figure copies, report PDF and fonts before bundling.
 
 Reference: https://vercel.com/docs/project-configuration/vercel-json

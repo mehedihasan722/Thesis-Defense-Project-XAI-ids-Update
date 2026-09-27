@@ -63,3 +63,8 @@ Sources: [NetFlow dataset creators](https://staff.itee.uq.edu.au/marius/NIDS_dat
 ### Defense presentation
 
 [PowerPoint](output/presentation/thesis_defense.pptx) · [PDF](output/presentation/thesis_defense.pdf) · [Outline and sources](docs/THESIS_PRESENTATION.md)
+
+
+### Live thesis website
+
+https://thesis-xai-ids.vercel.app — deployed to Vercel, with 19 live browser checks passing on 2026-09-27.
