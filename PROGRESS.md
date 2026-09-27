@@ -26,3 +26,8 @@ Public GitHub Pages deployment awaits explicit approval. Automatic approval revi
 ## Thesis defense presentation
 
 Completed a 28-slide editable defense deck and native PowerPoint PDF export. Includes 11 separate charts, speaker notes, the neural/LLM extension, RQ3 transfer, historical audit, limitations and future work. Sources and slide outline: [docs/THESIS_PRESENTATION.md](docs/THESIS_PRESENTATION.md).
+
+
+## Vercel support
+
+Added repository-root Vercel configuration to install/build `website` and publish `website/dist`. Production build and evidence hash verification pass. Import instructions are in website/README.md. Live deployment awaits a Vercel account connection; no public Vercel URL is claimed.

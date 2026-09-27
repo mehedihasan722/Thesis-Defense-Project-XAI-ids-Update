@@ -20,3 +20,6 @@ results/study/**/*.pt
 tmp/
 preview_thesis_format.py
 results/study/**/predictions_*.parquet
+
+# Vercel local project association
+.vercel/

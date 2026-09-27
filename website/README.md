@@ -46,6 +46,17 @@ Tests cover runtime rendering, pointer response, pause/play, CSV-derived hover v
 
 The exact scene source and r149 runtime form a separate large lazy-loaded chunk. Vite's size advisory is expected; source should not be altered to silence it.
 
-## Deployment status
+## Vercel deployment
 
-The production build is ready for local review. Public GitHub Pages deployment is pending explicit user approval. No automatic public deployment workflow has been installed or enabled. Publishing would make this website, its charts and the already-public thesis PDF accessible at a public Pages URL. Repository source updates and public website deployment are tracked separately.
+The repository-root `vercel.json` installs and builds the website, then publishes only `website/dist`. Keep Vercel Root Directory at the repository root (`.`), not `website`: source verification reads saved research inputs and original figures from sibling directories.
+
+1. In Vercel, import `mehedihasan722/Thesis-Defense-Project-XAI-ids-Update` from GitHub.
+2. Keep Root Directory at `.` and Framework Preset at **Other**. Use Node.js 24.x in project settings.
+3. Leave the install/build/output overrides to `vercel.json` and deploy the `main` branch.
+4. No environment variables or model downloads are required. Confirm the scene, chart hover values, figure downloads and thesis PDF on the returned deployment URL.
+
+Importing this public repository into Vercel will publish the website and included thesis documents. Future pushes follow the connected Vercel project's Git deployment settings. This configuration does not enable GitHub Pages.
+
+Status: repository configuration added; no live Vercel URL has been verified because this workspace has no connected Vercel account. The local build checks all four exact ThreeUI sources, the frozen evidence inputs, 41 figure copies, report PDF and fonts before bundling.
+
+Reference: https://vercel.com/docs/project-configuration/vercel-json
