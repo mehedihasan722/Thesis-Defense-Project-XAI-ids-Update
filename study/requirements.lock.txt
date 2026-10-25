@@ -42,7 +42,7 @@ six==1.17.0
 slicer==0.0.8
 sympy==1.14.0
 threadpoolctl==3.6.0
-tifffile==2026.3.3
+tifffile==2026.9.9
 tokenizers==0.22.2
 torch==2.8.0+cpu
 tqdm==4.70.1
